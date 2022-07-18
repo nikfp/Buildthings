@@ -2,7 +2,7 @@ import { removeSession } from '$lib/services/userService';
 import { parse, serialize } from 'cookie';
 import type { RequestHandler } from '@sveltejs/kit';
 
-export const post: RequestHandler = async function ({ request }) {
+export const POST: RequestHandler = async function ({ request }) {
 	const cookie = request.headers.get('cookie');
 
 	const cookies = parse(cookie || '');

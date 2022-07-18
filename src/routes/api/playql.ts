@@ -5,7 +5,7 @@ const defaultQuery = `
   hello
 }`;
 
-export async function get() {
+export async function GET() {
 	return {
 		status: 200,
 		headers: {

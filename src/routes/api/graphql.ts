@@ -1,14 +1,14 @@
 import type { RequestEvent } from '@sveltejs/kit/types/internal';
 import { graphqlExecutor } from '../../lib/graphql-server/executor';
 
-export async function get() {
+export async function GET() {
 	return {
 		status: 302,
 		headers: { Location: '/' }
 	};
 }
 
-export async function post(event: RequestEvent) {
+export async function POST(event: RequestEvent) {
 	if (!event.locals.user) {
 		return {
 			status: 401,

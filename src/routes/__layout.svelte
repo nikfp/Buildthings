@@ -24,6 +24,12 @@
 <script lang="ts">
 	import { goto, invalidate } from '$app/navigation';
 	import SignOut from '$lib/components/SignOut.svelte';
+	import 'agnostic-svelte/css/common.min.css';
+	import Header from '$lib/components/layout/Header.svelte';
+	import Nav from '../lib/components/layout/Nav.svelte';
+
+	import '../../static/style.css';
+import Footer from '../lib/components/layout/Footer.svelte';
 
 	async function signout() {
 		try {
@@ -56,18 +62,38 @@
 	$: userExists = $session.user ? true : false;
 </script>
 
-{#if userExists}
-	<p>Hello, {$session.user?.email}</p>
-	<button on:click={signout}>Sign out</button>
-	<br />
-	<a href="/">Home</a>
-	<a href="/page-a">Page A</a>
-{:else}
-	<a href="sign-in">Sign in here!</a> OR
-	<a href="sign-up">Sign up here!</a>
-{/if}
+<div class="app-container">
 
-{#if $session.signOut}
+<Header />
+
+<Nav />
+
+<main>
+
+	{#if $session.signOut}
 	<SignOut />
-{/if}
-<slot />
+	{/if}
+	<slot />
+</main>
+
+<Footer />
+
+</div>
+
+<style>
+
+	.app-container {
+		width: 100vw;
+		height: 100vh;
+		overflow-x: hidden;
+		display: grid;
+		grid-template-rows: 3rem 1fr 2rem;
+		grid-template-columns: 8rem 1fr;
+	}
+
+	main {
+		grid-area: 2 2 2 2;
+		padding: .5rem;
+	}
+
+</style>

@@ -2,7 +2,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { createSession, getUserByEmail, validateUserCredentials } from '$lib/services/userService';
 import { serialize } from 'cookie';
 
-export const post: RequestHandler = async function ({ request }) {
+export const POST: RequestHandler = async function ({ request }) {
 	const { email, password } = await request.json();
 
 	const isValid = await validateUserCredentials(email, password);

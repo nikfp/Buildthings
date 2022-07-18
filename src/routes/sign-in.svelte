@@ -6,7 +6,8 @@
 	import type { SignInSchema } from '../lib/validators/authValidators';
 	import TextInput from '../lib/components/inputs/TextInput.svelte';
 	import { page } from '$app/stores';
-import { onMount } from 'svelte';
+	import 'agnostic-svelte/css/common.min.css';
+	import { Button } from 'agnostic-svelte';
 
 	const redirectUrl = $page.url.searchParams.get('redirect') ?? '/';
 	const query = $page.url.searchParams.get('query') ?? '';
@@ -47,7 +48,7 @@ import { onMount } from 'svelte';
 	});
 </script>
 
-<h1>Sign In form</h1>
+<h1>Sign In</h1>
 <a href="/sign-up">Sign up instead</a>
 
 <br />
@@ -59,7 +60,8 @@ import { onMount } from 'svelte';
 <form use:form>
 	<TextInput title="Email" name="email" />
 	<TextInput title="Password" name="password" />
-	<button type="submit">Submit</button>
+	<Button type="submit" isRounded={true}>Submit</Button>
+	<!-- <button type="submit">Submit</button> -->
 </form>
 
 <style>
@@ -71,5 +73,10 @@ import { onMount } from 'svelte';
 
 	.error-message {
 		color: red;
+	}
+
+	.button {
+		margin-top: 2rem;
+		width: 100%;
 	}
 </style>

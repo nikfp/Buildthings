@@ -4,6 +4,8 @@
 	import { reporter } from '@felte/reporter-svelte';
 	import { signupSchema as schema } from '$lib/validators/authValidators';
 	import type { SignUpSchema } from '$lib/validators/authValidators';
+	import 'agnostic-svelte/css/common.min.css';
+	import { Button } from 'agnostic-svelte';
 
 	import TextInput from '$lib/components/inputs/TextInput.svelte';
 
@@ -54,7 +56,8 @@
 	<TextInput title="Email" name="email" />
 	<TextInput title="Password" name="password" />
 	<TextInput title="Confirm Password" name="confirm" />
-	<button type="submit">Submit</button>
+
+	<Button type="submit" isRounded={true}>Submit</Button>
 </form>
 
 <style>

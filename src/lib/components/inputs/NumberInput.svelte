@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { ValidationMessage } from '@felte/reporter-svelte';
+	import 'agnostic-svelte/css/common.min.css';
+  import { Input } from "agnostic-svelte";
 
 	export let className = '';
 	export let name: string;
@@ -9,12 +11,8 @@
 </script>
 
 <div class={componentClass}>
-	<label for={name}>{title}</label>
-	<input type="number" {name} id={name} />
 	<ValidationMessage for={name} let:messages={message}>
-		{#if message}
-			<span class="error-message">{message}</span>
-		{/if}
+	<Input type="number" {name} id={name} label={title} isInvalid={!!message} invalidText={message ? (message.join(", ") + '\nThis is new line') : undefined}/>
 	</ValidationMessage>
 </div>
 
