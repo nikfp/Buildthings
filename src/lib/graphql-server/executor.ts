@@ -4,9 +4,10 @@ import { useGraphQlJit } from '@envelop/graphql-jit';
 import { createApplication } from 'graphql-modules';
 import Hello from './modules/Hello/Hello';
 import SendInput from './modules/SendInput/SendInput';
+import Customer from './modules/Customer/Customer';
 
 const graphqlApplication = createApplication({
-	modules: [Hello, SendInput]
+	modules: [Hello, SendInput, Customer]
 });
 
 const schema = graphqlApplication.schema;

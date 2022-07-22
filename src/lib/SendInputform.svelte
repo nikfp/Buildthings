@@ -1,41 +1,21 @@
 <script lang="ts">
-	import { createForm } from 'felte';
-	import { validator } from '@felte/validator-zod';
-	import { sendInputSchema } from './validators/validators';
-	import type { Input } from './validators/validators';
-	import { reporter } from '@felte/reporter-svelte';
-	import TextInput from './components/inputs/TextInput.svelte';
-	import NumberInput from './components/inputs/NumberInput.svelte';
+	import { sendInputSchema } from './graphql-server/validators/validators';
 	import {GQL_SendIt} from "$houdini"
-
-	const { form, errors } = createForm<Input>({
-		onSubmit: async (values) => {
-			const input = sendInputSchema.parse(values);
-			await GQL_SendIt.mutate({ variables: { input } });
-		},
-		onError: (error) => {
-			console.log('ERRORS');
-			console.log(error);
-		},
-		onSuccess: (_success) => {
-			console.log('SUCCESS');
-			console.log($GQL_SendIt.data?.send.send);
-		},
-		extend: [validator({ schema: sendInputSchema }), reporter]
-	});
+	import FormBuilder from './components/FormBuilder.svelte'
 </script>
 
-<p>
-	Errors: {JSON.stringify($errors, null, 2)}
-</p>
-<p>
-	Server response: {JSON.stringify($GQL_SendIt.data)}
-</p>
-<form use:form>
-	<TextInput title="Words" name="words" />
-	<NumberInput title="Numbers" name="numbers" />
-	<button type="submit">Submit</button>
-</form>
+<h1>Send Input form</h1>
+<p>{JSON.stringify($GQL_SendIt.data, null, 2)}</p>
+<FormBuilder config={{validator: sendInputSchema, mutator: GQL_SendIt, fieldConfig: {
+	words: {
+		fieldType: "STRING",
+		label: "What are the words?"
+	},
+	numbers: {
+		fieldType: "NUMBER",
+		label: "Number greater than 5"
+	}
+}}}/>
 
 <style>
 	form {

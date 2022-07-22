@@ -1,4 +1,8 @@
-import { createSession, getUserByEmail, registerUser } from '$lib/services/userService';
+import {
+	createSession,
+	getUserByEmail,
+	registerUser
+} from '$lib/graphql-server/services/userService';
 import { serialize } from 'cookie';
 import type { RequestHandler } from '@sveltejs/kit';
 

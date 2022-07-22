@@ -1,5 +1,9 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { createSession, getUserByEmail, validateUserCredentials } from '$lib/services/userService';
+import {
+	createSession,
+	getUserByEmail,
+	validateUserCredentials
+} from '$lib/graphql-server/services/userService';
 import { serialize } from 'cookie';
 
 export const POST: RequestHandler = async function ({ request }) {

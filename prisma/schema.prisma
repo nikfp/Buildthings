@@ -3,7 +3,9 @@
 
 generator client {
   provider = "prisma-client-js"
+  output = "../node_modules/@prisma/.prisma/client"
 }
+
 
 datasource db {
   provider = "sqlite"
@@ -22,4 +24,9 @@ model Session {
   userId String
   user User @relation(fields: [userId], references: [id])
   expires DateTime
+}
+
+model Customer {
+  id String @id @default(uuid())
+  name String
 }

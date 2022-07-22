@@ -1,6 +1,6 @@
 import type { GetSession, Handle } from '@sveltejs/kit';
 import { parse, serialize } from 'cookie';
-import { validateAndRefreshSession } from '$lib/services/userService';
+import { validateAndRefreshSession } from '$lib/graphql-server/services/userService';
 
 export const handle: Handle = async function ({ event, resolve }) {
 	if (event.routeId === 'api/sign-out') {

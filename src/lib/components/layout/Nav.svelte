@@ -4,7 +4,7 @@ import Navlink from "./Navlink.svelte";
 </script>
 <nav>
   <Navlink href="/" routeTitle="Home"/>
-  <Navlink href="/page-a" routeTitle="Page A"/>
+  <Navlink href="/customers" routeTitle="Customers"/>
   <Navlink href="/page-b" routeTitle="Page B"/>
 </nav>
 

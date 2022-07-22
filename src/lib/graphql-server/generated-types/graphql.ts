@@ -6,6 +6,7 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -15,9 +16,27 @@ export type Scalars = {
   Float: number;
 };
 
+export type Customer = {
+  __typename?: 'Customer';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  CreateCustomer: Customer;
+  UpdateCustomer: Customer;
   send: SendBack;
+};
+
+
+export type MutationCreateCustomerArgs = {
+  input: NewCustomerInput;
+};
+
+
+export type MutationUpdateCustomerArgs = {
+  input: UpdateCustomerInput;
 };
 
 
@@ -25,10 +44,21 @@ export type MutationSendArgs = {
   input?: InputMaybe<SendInput>;
 };
 
+export type NewCustomerInput = {
+  name: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  getCustomerById: Customer;
+  getCustomers?: Maybe<Array<Customer>>;
   greetings: Scalars['String'];
   hello: Scalars['String'];
+};
+
+
+export type QueryGetCustomerByIdArgs = {
+  id: Scalars['ID'];
 };
 
 export type SendBack = {
@@ -39,6 +69,11 @@ export type SendBack = {
 export type SendInput = {
   numbers: Scalars['Int'];
   words: Scalars['String'];
+};
+
+export type UpdateCustomerInput = {
+  id: Scalars['ID'];
+  name: Scalars['String'];
 };
 
 
@@ -111,30 +146,48 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Customer: ResolverTypeWrapper<Customer>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
+  NewCustomerInput: NewCustomerInput;
   Query: ResolverTypeWrapper<{}>;
   SendBack: ResolverTypeWrapper<SendBack>;
   SendInput: SendInput;
   String: ResolverTypeWrapper<Scalars['String']>;
+  UpdateCustomerInput: UpdateCustomerInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
+  Customer: Customer;
+  ID: Scalars['ID'];
   Int: Scalars['Int'];
   Mutation: {};
+  NewCustomerInput: NewCustomerInput;
   Query: {};
   SendBack: SendBack;
   SendInput: SendInput;
   String: Scalars['String'];
+  UpdateCustomerInput: UpdateCustomerInput;
+};
+
+export type CustomerResolvers<ContextType = any, ParentType extends ResolversParentTypes['Customer'] = ResolversParentTypes['Customer']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  CreateCustomer?: Resolver<ResolversTypes['Customer'], ParentType, ContextType, RequireFields<MutationCreateCustomerArgs, 'input'>>;
+  UpdateCustomer?: Resolver<ResolversTypes['Customer'], ParentType, ContextType, RequireFields<MutationUpdateCustomerArgs, 'input'>>;
   send?: Resolver<ResolversTypes['SendBack'], ParentType, ContextType, Partial<MutationSendArgs>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  getCustomerById?: Resolver<ResolversTypes['Customer'], ParentType, ContextType, RequireFields<QueryGetCustomerByIdArgs, 'id'>>;
+  getCustomers?: Resolver<Maybe<Array<ResolversTypes['Customer']>>, ParentType, ContextType>;
   greetings?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
@@ -145,6 +198,7 @@ export type SendBackResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type Resolvers<ContextType = any> = {
+  Customer?: CustomerResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SendBack?: SendBackResolvers<ContextType>;
