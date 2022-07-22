@@ -27,7 +27,7 @@ generates:
       - typed-document-node
     config:
       useTypeImports: true
-  ./src/lib/validators/validationTypes.d.ts:
+  ./src/lib/validators/graphql-server/validationTypes.d.ts:
     plugins:
       - add:
           content: '/* eslint-disable */'

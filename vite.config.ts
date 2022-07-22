@@ -8,7 +8,10 @@ const config = {
 	resolve: {
 		alias: {
 			$houdini: path.resolve('.', '$houdini'),
-			$graphql: path.resolve('src', 'lib', 'graphql-client')
+			$graphql: path.resolve('src', 'lib', 'graphql-client'),
+			$providers: path.resolve('src', 'lib', 'graphql-server', 'providers'),
+			$components: path.resolve('src', 'lib', 'components'),
+			$modules: path.resolve('src', 'lib', 'graphql-server', 'modules')
 		}
 	},
 	server: {

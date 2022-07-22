@@ -19,7 +19,10 @@
 			"$lib/*": ["src/lib/*"],
 			"$graphql": ["src/lib/graphql"],
 			"$graphql/*": ["src/lib/graphql/*"],
-			"$houdini": ["$houdini"]
+			"$houdini": ["$houdini"],
+			"$providers/*": ["src/lib/graphql-server/providers/*"],
+			"$components/*": ["src/lib/components/*"],
+			"$modules/*": ["src/lib/graphql-server/modules/*"]
 		},
 		"composite": true
 	}
