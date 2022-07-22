@@ -2,7 +2,7 @@ import prisma from '../providers/database';
 import type { User } from '../providers/database';
 import bcrypt from 'bcrypt';
 import { signinSchema } from '../validators/authValidators';
-import { logger } from '../utilities/logger';
+import { logger } from '../../utilities/logger';
 
 const location = 'userService';
 

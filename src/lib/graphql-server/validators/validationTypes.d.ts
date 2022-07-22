@@ -14,9 +14,27 @@ export type Scalars = {
   Float: number;
 };
 
+export type Customer = {
+  __typename?: 'Customer';
+  ID: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  CreateCustomer: Customer;
+  UpdateCustomer: Customer;
   send: SendBack;
+};
+
+
+export type MutationCreateCustomerArgs = {
+  input?: InputMaybe<NewCustomerInput>;
+};
+
+
+export type MutationUpdateCustomerArgs = {
+  input?: InputMaybe<UpdateCustomerInput>;
 };
 
 
@@ -24,8 +42,14 @@ export type MutationSendArgs = {
   input?: InputMaybe<SendInput>;
 };
 
+export type NewCustomerInput = {
+  name: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  getCustomerById: Customer;
+  getCustomers: Array<Maybe<Customer>>;
   greetings: Scalars['String'];
   hello: Scalars['String'];
 };
@@ -38,4 +62,9 @@ export type SendBack = {
 export type SendInput = {
   numbers: Scalars['Int'];
   words: Scalars['String'];
+};
+
+export type UpdateCustomerInput = {
+  id: Scalars['ID'];
+  name: Scalars['String'];
 };

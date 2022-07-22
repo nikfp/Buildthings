@@ -1,7 +1,7 @@
 import type { Session, User } from '@prisma/client';
 import { describe, expect, it, beforeEach, afterEach, beforeAll } from 'vitest';
 
-import { prismaMock } from '../../testutils/singleton.setup';
+import { prismaMock } from '../../../testutils/singleton.setup';
 import {
 	createSession,
 	getSession,

@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { vi } from 'vitest';
 
-import prisma from '../lib/providers/database';
+import prisma from '../lib/graphql-server/providers/database';
 
 vi.mock('../lib/providers/database', () => ({
 	default: new PrismaClient({
