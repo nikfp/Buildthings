@@ -2,17 +2,19 @@
 	import { ValidationMessage } from '@felte/reporter-svelte';
 	import 'agnostic-svelte/css/common.min.css';
   import { Input } from "agnostic-svelte";
+	import { messageJoin } from './inputUtilities';
 
 	export let className = '';
 	export let name: string;
-	export let title: string;
+	export let title: string | undefined;
+	export let value: number | undefined;
 
 	$: componentClass = 'input ' + className;
 </script>
 
 <div class={componentClass}>
 	<ValidationMessage for={name} let:messages={message}>
-	<Input type="number" {name} id={name} label={title} isInvalid={!!message} invalidText={message ? (message.join(", ") + '\nThis is new line') : undefined}/>
+	<Input type="number" {name} label={title ?? name} isInvalid={!!message} invalidText={message ? messageJoin(message) : undefined} value={value?.toString()}/>
 	</ValidationMessage>
 </div>
 
