@@ -61,6 +61,7 @@
 <style>
   table {
     margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 
   thead {
@@ -71,7 +72,7 @@
     padding: .25rem;
   }
 
-  tbody tr {
+  tbody tr:not(:last-of-type){
     border-bottom: 1px solid var(--accent-color-primary)
   }
 </style>

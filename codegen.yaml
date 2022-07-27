@@ -34,7 +34,24 @@ generates:
       - add:
           content: '// @ts-nocheck'
       - typescript
+      - typescript-resolvers
     config:
+      mappers:
+        Customer: ./src/lib/graphql-server/providers/database#Customer
+        Project: ../providers/database#Project
+      useTypeImports: true
+  ./src/lib//graphql-server/generated-types/graphql.ts:
+    plugins:
+      - add:
+          content: '/* eslint-disable */'
+      - add:
+          content: '// @ts-nocheck'
+      - typescript
+      - typescript-resolvers
+    config:
+      mappers:
+        Customer: ./src/lib/graphql-server/providers/database#Customer
+        Project: ../providers/database#Project
       useTypeImports: true
   ./graphql-generated/schema.json:
     plugins:

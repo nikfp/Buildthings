@@ -1,6 +1,8 @@
 /* eslint-disable */
 // @ts-nocheck
 import type { GraphQLResolveInfo } from 'graphql';
+import type { Customer } from './src/lib/graphql-server/providers/database';
+import type { Project } from '../providers/database';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -21,13 +23,16 @@ export type Customer = {
   id: Scalars['ID'];
   name: Scalars['String'];
   phone: Scalars['String'];
+  projects?: Maybe<Array<Project>>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   CreateCustomer: Customer;
   UpdateCustomer: Customer;
+  createProject: Project;
   send: SendBack;
+  updateProject: Project;
 };
 
 
@@ -41,8 +46,18 @@ export type MutationUpdateCustomerArgs = {
 };
 
 
+export type MutationCreateProjectArgs = {
+  input: NewProjectInput;
+};
+
+
 export type MutationSendArgs = {
   input?: InputMaybe<SendInput>;
+};
+
+
+export type MutationUpdateProjectArgs = {
+  input: UpdateProjectInput;
 };
 
 export type NewCustomerInput = {
@@ -50,16 +65,35 @@ export type NewCustomerInput = {
   phone: Scalars['String'];
 };
 
+export type NewProjectInput = {
+  customerId: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type Project = {
+  __typename?: 'Project';
+  customer?: Maybe<Customer>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   getCustomerById: Customer;
   getCustomers?: Maybe<Array<Customer>>;
+  getProjectById: Project;
+  getProjects?: Maybe<Array<Project>>;
   greetings: Scalars['String'];
   hello: Scalars['String'];
 };
 
 
 export type QueryGetCustomerByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetProjectByIdArgs = {
   id: Scalars['ID'];
 };
 
@@ -77,6 +111,12 @@ export type UpdateCustomerInput = {
   id: Scalars['ID'];
   name: Scalars['String'];
   phone: Scalars['String'];
+};
+
+export type UpdateProjectInput = {
+  customerId: Scalars['ID'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
 };
 
 
@@ -154,11 +194,14 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
   NewCustomerInput: NewCustomerInput;
+  NewProjectInput: NewProjectInput;
+  Project: ResolverTypeWrapper<Project>;
   Query: ResolverTypeWrapper<{}>;
   SendBack: ResolverTypeWrapper<SendBack>;
   SendInput: SendInput;
   String: ResolverTypeWrapper<Scalars['String']>;
   UpdateCustomerInput: UpdateCustomerInput;
+  UpdateProjectInput: UpdateProjectInput;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -169,29 +212,44 @@ export type ResolversParentTypes = {
   Int: Scalars['Int'];
   Mutation: {};
   NewCustomerInput: NewCustomerInput;
+  NewProjectInput: NewProjectInput;
+  Project: Project;
   Query: {};
   SendBack: SendBack;
   SendInput: SendInput;
   String: Scalars['String'];
   UpdateCustomerInput: UpdateCustomerInput;
+  UpdateProjectInput: UpdateProjectInput;
 };
 
 export type CustomerResolvers<ContextType = any, ParentType extends ResolversParentTypes['Customer'] = ResolversParentTypes['Customer']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   phone?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  projects?: Resolver<Maybe<Array<ResolversTypes['Project']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   CreateCustomer?: Resolver<ResolversTypes['Customer'], ParentType, ContextType, RequireFields<MutationCreateCustomerArgs, 'input'>>;
   UpdateCustomer?: Resolver<ResolversTypes['Customer'], ParentType, ContextType, RequireFields<MutationUpdateCustomerArgs, 'input'>>;
+  createProject?: Resolver<ResolversTypes['Project'], ParentType, ContextType, RequireFields<MutationCreateProjectArgs, 'input'>>;
   send?: Resolver<ResolversTypes['SendBack'], ParentType, ContextType, Partial<MutationSendArgs>>;
+  updateProject?: Resolver<ResolversTypes['Project'], ParentType, ContextType, RequireFields<MutationUpdateProjectArgs, 'input'>>;
+};
+
+export type ProjectResolvers<ContextType = any, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = {
+  customer?: Resolver<Maybe<ResolversTypes['Customer']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getCustomerById?: Resolver<ResolversTypes['Customer'], ParentType, ContextType, RequireFields<QueryGetCustomerByIdArgs, 'id'>>;
   getCustomers?: Resolver<Maybe<Array<ResolversTypes['Customer']>>, ParentType, ContextType>;
+  getProjectById?: Resolver<ResolversTypes['Project'], ParentType, ContextType, RequireFields<QueryGetProjectByIdArgs, 'id'>>;
+  getProjects?: Resolver<Maybe<Array<ResolversTypes['Project']>>, ParentType, ContextType>;
   greetings?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
@@ -204,6 +262,7 @@ export type SendBackResolvers<ContextType = any, ParentType extends ResolversPar
 export type Resolvers<ContextType = any> = {
   Customer?: CustomerResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  Project?: ProjectResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SendBack?: SendBackResolvers<ContextType>;
 };

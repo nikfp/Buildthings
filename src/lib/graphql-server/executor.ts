@@ -5,9 +5,10 @@ import { createApplication } from 'graphql-modules';
 import Hello from './modules/Hello/Hello';
 import SendInput from './modules/SendInput/SendInput';
 import Customer from './modules/Customer/Customer';
+import Project from './modules/Project/Project';
 
 const graphqlApplication = createApplication({
-	modules: [Hello, SendInput, Customer]
+	modules: [Hello, SendInput, Customer, Project]
 });
 
 const schema = graphqlApplication.schema;

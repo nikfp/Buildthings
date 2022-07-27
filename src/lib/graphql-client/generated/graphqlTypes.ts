@@ -21,13 +21,16 @@ export type Customer = {
   id: Scalars['ID'];
   name: Scalars['String'];
   phone: Scalars['String'];
+  projects?: Maybe<Array<Project>>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   CreateCustomer: Customer;
   UpdateCustomer: Customer;
+  createProject: Project;
   send: SendBack;
+  updateProject: Project;
 };
 
 
@@ -41,8 +44,18 @@ export type MutationUpdateCustomerArgs = {
 };
 
 
+export type MutationCreateProjectArgs = {
+  input: NewProjectInput;
+};
+
+
 export type MutationSendArgs = {
   input?: InputMaybe<SendInput>;
+};
+
+
+export type MutationUpdateProjectArgs = {
+  input: UpdateProjectInput;
 };
 
 export type NewCustomerInput = {
@@ -50,16 +63,35 @@ export type NewCustomerInput = {
   phone: Scalars['String'];
 };
 
+export type NewProjectInput = {
+  customerId: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type Project = {
+  __typename?: 'Project';
+  customer?: Maybe<Customer>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   getCustomerById: Customer;
   getCustomers?: Maybe<Array<Customer>>;
+  getProjectById: Project;
+  getProjects?: Maybe<Array<Project>>;
   greetings: Scalars['String'];
   hello: Scalars['String'];
 };
 
 
 export type QueryGetCustomerByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetProjectByIdArgs = {
   id: Scalars['ID'];
 };
 
@@ -77,6 +109,12 @@ export type UpdateCustomerInput = {
   id: Scalars['ID'];
   name: Scalars['String'];
   phone: Scalars['String'];
+};
+
+export type UpdateProjectInput = {
+  customerId: Scalars['ID'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
 };
 
 export type HelloThereQueryVariables = Exact<{ [key: string]: never; }>;

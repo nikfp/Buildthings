@@ -37,6 +37,7 @@
   const {form} = createForm<TInputType>({
     onSubmit: async(values) => {
       const input = config.validator.parse(values);
+      console.log(input);
       await config.mutator.mutate({variables: {input}});
     },
     onError: (error) => {

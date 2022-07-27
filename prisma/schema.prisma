@@ -30,4 +30,12 @@ model Customer {
   id String @id @default(uuid())
   name String
   phone String @default("970-963-5751")
+  projects Project[] 
+}
+
+model Project {
+  id String @id @default(uuid())
+  name String
+  customerId String
+  customer Customer @relation(fields: [customerId], references: [id])
 }
