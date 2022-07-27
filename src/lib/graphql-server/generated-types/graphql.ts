@@ -20,6 +20,7 @@ export type Customer = {
   __typename?: 'Customer';
   id: Scalars['ID'];
   name: Scalars['String'];
+  phone: Scalars['String'];
 };
 
 export type Mutation = {
@@ -46,6 +47,7 @@ export type MutationSendArgs = {
 
 export type NewCustomerInput = {
   name: Scalars['String'];
+  phone: Scalars['String'];
 };
 
 export type Query = {
@@ -74,6 +76,7 @@ export type SendInput = {
 export type UpdateCustomerInput = {
   id: Scalars['ID'];
   name: Scalars['String'];
+  phone: Scalars['String'];
 };
 
 
@@ -176,6 +179,7 @@ export type ResolversParentTypes = {
 export type CustomerResolvers<ContextType = any, ParentType extends ResolversParentTypes['Customer'] = ResolversParentTypes['Customer']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  phone?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

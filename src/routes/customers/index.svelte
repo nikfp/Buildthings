@@ -1,25 +1,36 @@
 <script lang="ts">
+  import 'agnostic-svelte/css/common.min.css';
   import {query, graphql } from '$houdini';
   import type {GetCustomers} from '$houdini';
+  import { Button } from 'agnostic-svelte';
+  import { goto } from '$app/navigation';
+  // import Grid from 'gridjs-svelte'
+  // import SvelteTable from "svelte-table";
+  import Table from '$components/Table.svelte';
 
   const {data} = query<GetCustomers>(graphql`
     query GetCustomers {
 	    getCustomers @list(name: "Customers_List") {
         id
         name
+        phone
 	    }
     }
   `)
 </script>
 
-<h1>Placeholder for customers page</h1>
+<h1>Customers</h1>
 
-<a class="btn btn-primary" href="/customers/new">Create new customer</a>
+<Button type="button" on:click={() => goto("/customers/new")}>Create new customer</Button>
 
-<ul>
-  {#if $data?.getCustomers}
-  {#each $data.getCustomers as customer}
-    <li><a href="/customers/{customer.id}">{customer.name}</a></li>
-  {/each}
-  {/if}
-</ul>
+{#if $data?.getCustomers}
+  <Table 
+    key={"id"} 
+    data={$data.getCustomers} 
+    fieldConfig={[
+      {fieldName: "id", label: "ID", hidden: true}, {fieldName: "name", label: "Customer Name", asLink: {
+        hrefBuilder: (row) => `/customers/${row.id}`
+      }},
+      {fieldName: "phone", label: "Phone"}
+  ]}/>
+{/if}

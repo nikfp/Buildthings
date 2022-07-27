@@ -21,6 +21,7 @@
       getCustomerById(id: $id) {
         id
         name
+        phone
       }
     } 
   `);
@@ -54,6 +55,11 @@
         fieldType: "STRING",
         label: "Customer Name",
         defaultValue: $data.getCustomerById.name
+      },
+      phone: {
+        fieldType: "STRING",
+        label: "Phone Number",
+        defaultValue: $data.getCustomerById.phone
       }
     }
     

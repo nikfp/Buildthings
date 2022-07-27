@@ -4,14 +4,14 @@ import * as Types from "../../../generated-types/graphql";
 import * as gm from "graphql-modules";
 export namespace CustomerModule {
   interface DefinedFields {
-    Customer: 'id' | 'name';
+    Customer: 'id' | 'name' | 'phone';
     Query: 'getCustomers' | 'getCustomerById';
     Mutation: 'CreateCustomer' | 'UpdateCustomer';
   };
   
   interface DefinedInputFields {
-    NewCustomerInput: 'name';
-    UpdateCustomerInput: 'id' | 'name';
+    NewCustomerInput: 'name' | 'phone';
+    UpdateCustomerInput: 'id' | 'name' | 'phone';
   };
   
   export type Customer = Pick<Types.Customer, DefinedFields['Customer']>;
@@ -38,6 +38,7 @@ export namespace CustomerModule {
       '*'?: gm.Middleware[];
       id?: gm.Middleware[];
       name?: gm.Middleware[];
+      phone?: gm.Middleware[];
     };
     Query?: {
       '*'?: gm.Middleware[];

@@ -9,6 +9,7 @@
 	  CreateCustomer(input: $input) {
 		id
 		name
+    phone
     ...Customers_List_insert
 	}
 }
@@ -30,6 +31,10 @@
     name: {
       fieldType: "STRING",
       label: "Customer Name",
+    },
+    phone: {
+      fieldType: "STRING",
+      label: "Phone Number"
     }
   }
 }} />

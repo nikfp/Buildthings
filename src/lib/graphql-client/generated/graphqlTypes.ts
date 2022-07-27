@@ -20,6 +20,7 @@ export type Customer = {
   __typename?: 'Customer';
   id: Scalars['ID'];
   name: Scalars['String'];
+  phone: Scalars['String'];
 };
 
 export type Mutation = {
@@ -46,6 +47,7 @@ export type MutationSendArgs = {
 
 export type NewCustomerInput = {
   name: Scalars['String'];
+  phone: Scalars['String'];
 };
 
 export type Query = {
@@ -74,6 +76,7 @@ export type SendInput = {
 export type UpdateCustomerInput = {
   id: Scalars['ID'];
   name: Scalars['String'];
+  phone: Scalars['String'];
 };
 
 export type HelloThereQueryVariables = Exact<{ [key: string]: never; }>;
