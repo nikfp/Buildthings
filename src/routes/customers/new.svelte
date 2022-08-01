@@ -3,6 +3,8 @@
   import {newCustomerSchema} from '$modules/Customer/validators'
   import FormBuilder from '$components/FormBuilder.svelte';
   import {goto} from "$app/navigation";
+  import TextInput from '../../lib/components/inputs/TextInput.svelte';
+  import AddressPicker from '../../lib/components/AddressPicker.svelte';
 
   const {} = mutation(graphql`
     mutation CreateCustomer($input: NewCustomerInput!) {
@@ -26,15 +28,9 @@
   onSuccessfulSubmit: () => {
     const customerId = $GQL_CreateCustomer.data?.CreateCustomer.id;
     goto(`/customers/${customerId}`);
-  },
-  fieldConfig: {
-    name: {
-      fieldType: "STRING",
-      label: "Customer Name",
-    },
-    phone: {
-      fieldType: "STRING",
-      label: "Phone Number"
-    }
   }
-}} />
+}}>
+<TextInput name="name" title="Customer Name"/>
+<TextInput name="phone" title="Phone Number"/>
+<AddressPicker />
+</FormBuilder>

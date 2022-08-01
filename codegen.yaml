@@ -15,6 +15,11 @@ generates:
       - typescript-resolvers
     config:
       useTypeImports: true
+      mappers:
+        Customer: ../providers/database#Customer
+        Project: ../providers/database#Project
+        Address: ../providers/database#Address
+      mapperTypeSuffix: Model
   ./src/lib/graphql-client/generated/graphqlTypes.ts:
     plugins:
       - add:
@@ -36,23 +41,22 @@ generates:
       - typescript
       - typescript-resolvers
     config:
-      mappers:
-        Customer: ./src/lib/graphql-server/providers/database#Customer
-        Project: ../providers/database#Project
       useTypeImports: true
-  ./src/lib//graphql-server/generated-types/graphql.ts:
-    plugins:
-      - add:
-          content: '/* eslint-disable */'
-      - add:
-          content: '// @ts-nocheck'
-      - typescript
-      - typescript-resolvers
-    config:
-      mappers:
-        Customer: ./src/lib/graphql-server/providers/database#Customer
-        Project: ../providers/database#Project
-      useTypeImports: true
+  # ./src/lib//graphql-server/generated-types/graphql.ts:
+  #   plugins:
+  #     - add:
+  #         content: '/* eslint-disable */'
+  #     - add:
+  #         content: '// @ts-nocheck'
+  #     - typescript
+  #     - typescript-resolvers
+  #   config:
+  #     mappers:
+  #       Customer: ./src/lib/graphql-server/providers/database#Customer
+  #       Project: ../providers/database#Project
+  #       Address: ../providers/database#Address
+  #     useTypeImports: true
+  #     mapperTypeSuffix: Model
   ./graphql-generated/schema.json:
     plugins:
       - '@graphql-codegen/introspection'

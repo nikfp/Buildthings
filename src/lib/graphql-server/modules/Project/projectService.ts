@@ -17,11 +17,21 @@ export async function getProjectsByCustomerId(id: string) {
 	return await prisma.project.findMany({ where: { customerId: id } });
 }
 
+export async function getProjectsByAddressId(addressId: string) {
+	return await prisma.project.findMany({ where: { addressId } });
+}
+
 export async function createProject(input: NewProjectInput) {
 	try {
-		const { name, customerId } = newProjectSchema.parse(input);
+		const { name, customerId, addressId } = newProjectSchema.parse(input);
 
-		const dbProject = await prisma.project.create({ data: { name, customerId } });
+		const address = prisma.address.findUnique({ where: { id: addressId } });
+		const customer = prisma.customer.findUnique({ where: { id: customerId } });
+
+		if (!(await address)) return Promise.reject(new Error('Address not found'));
+		if (!(await customer)) return Promise.reject(new Error('Customer not found'));
+
+		const dbProject = await prisma.project.create({ data: { name, customerId, addressId } });
 
 		return Promise.resolve(dbProject);
 	} catch (error) {
@@ -36,15 +46,16 @@ export async function updateProject(input: UpdateProjectInput) {
 	try {
 		const data = updateProjectSchema.parse(input);
 
-		const customer = await prisma.customer.findUnique({
+		const customer = prisma.customer.findUnique({
 			where: {
 				id: data.customerId
 			}
 		});
 
-		if (!customer) {
-			throw new Error('Customer not found for create project operation');
-		}
+		const address = prisma.address.findUnique({ where: { id: data.addressId } });
+
+		if (!(await address)) return Promise.reject(new Error('Address not found'));
+		if (!(await customer)) return Promise.reject(new Error('Customer not found'));
 
 		const project = await prisma.project.update({
 			where: { id: data.id },

@@ -28,12 +28,14 @@ const typeDefs = gql`
 	input NewProjectInput {
 		name: String!
 		customerId: ID!
+		addressId: ID!
 	}
 
 	input UpdateProjectInput {
 		id: ID!
 		name: String!
 		customerId: ID!
+		addressId: ID!
 	}
 
 	extend type Mutation {

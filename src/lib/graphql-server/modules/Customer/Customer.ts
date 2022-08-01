@@ -17,12 +17,14 @@ const typeDefs = gql`
 	input NewCustomerInput {
 		name: String!
 		phone: String!
+		addressId: ID!
 	}
 
 	input UpdateCustomerInput {
 		id: ID!
 		name: String!
 		phone: String!
+		addressId: ID!
 	}
 
 	type Mutation {

@@ -75,8 +75,4 @@
 		color: red;
 	}
 
-	.button {
-		margin-top: 2rem;
-		width: 100%;
-	}
 </style>

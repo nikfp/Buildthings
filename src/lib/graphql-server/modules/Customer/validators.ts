@@ -5,7 +5,8 @@ import type { UpdateCustomerInput, NewCustomerInput } from '../../generated-type
 
 export const newCustomerSchema: toZod<NewCustomerInput> = z.object({
 	name: string().min(5).max(50),
-	phone: string().min(7).max(15)
+	phone: string().min(7).max(15),
+	addressId: string().uuid()
 });
 
 export const updateCustomerSchema: toZod<UpdateCustomerInput> = newCustomerSchema.extend({

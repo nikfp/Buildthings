@@ -17,6 +17,8 @@
   import Dialog from '../../lib/components/Dialog.svelte';
   import { Button } from 'agnostic-svelte';
 import Table from '$components/Table.svelte';
+import TextInput from "../../lib/components/inputs/TextInput.svelte";
+import AddressPicker from "../../lib/components/AddressPicker.svelte";
 
   let customerDialog: Dialog; 
   let projectDialog: Dialog;
@@ -29,6 +31,10 @@ import Table from '$components/Table.svelte';
         projects {
           id name
         }
+        address {
+          id city street
+        }
+
       }
     } 
   `);
@@ -56,6 +62,7 @@ import Table from '$components/Table.svelte';
 
 {#if $data}
 <h1>{$data.getCustomerById.name}<span on:click={() => customerDialog.openDialog()} class="edit-button"><Edit/></span></h1>
+<p>{$data.getCustomerById.address.street}, {$data.getCustomerById.address.city}</p>
 <Button type="button" on:click={() => projectDialog.openDialog()}>Create Project</Button>
 {#if $data.getCustomerById.projects}
 <Table data={$data.getCustomerById.projects} key={"id"} fieldConfig={[{fieldName: "name", label: "Project Name"}]}/>
@@ -65,47 +72,26 @@ import Table from '$components/Table.svelte';
     mutator: GQL_UpdateCustomer,
     validator: updateCustomerSchema,
     onSuccessfulSubmit: () => customerDialog.closeDialog(),
-    fieldConfig: {
-      id: {
-        fieldType: "STRING",
-        hidden: true,
-        defaultValue: $data.getCustomerById.id
-      },
-      name: {
-        fieldType: "STRING",
-        label: "Customer Name",
-        defaultValue: $data.getCustomerById.name
-      },
-      phone: {
-        fieldType: "STRING",
-        label: "Phone Number",
-        defaultValue: $data.getCustomerById.phone
-      }
-    }
-    
-  }} />
+  }}>
+<TextInput name="id" title={"id"} hidden={true} value={$data.getCustomerById.id}/>  
+<TextInput name="name" title={"Name"} value={$data.getCustomerById.name}/>  
+<TextInput name="phone" title={"Phone Number"} value={$data.getCustomerById.phone}/>  
+<AddressPicker selected={$data.getCustomerById.address.id} />
+</FormBuilder>
 </Dialog>
 <Dialog bind:this={projectDialog} title="New Project">
   <FormBuilder config={{
     validator: newProjectSchema, 
     mutator: GQL_CreateProject, 
-    fieldConfig: {
-      name: {
-        fieldType: "STRING",
-        label: "Project name"
-      },
-      customerId: {
-        fieldType: "STRING",
-        hidden: true,
-        defaultValue: $data.getCustomerById.id
-      }
-    },
     onSuccessfulSubmit: () => {
-      const projectId = $GQL_CreateProject.data?.createProject;
       projectDialog.closeDialog();
       refetch();
     }
-}}/>
+}}>
+<TextInput name="name" title="Project Name"/>
+<TextInput name="customerId" hidden={true} value={$data.getCustomerById.id} title="Customer Id"/>
+<AddressPicker />
+</FormBuilder>
 </Dialog>
 {:else}
 <p>Loading....</p>

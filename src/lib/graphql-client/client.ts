@@ -3,13 +3,7 @@ import { HoudiniClient } from '$houdini';
 import { session as storeSession } from '$app/stores';
 import { goto, invalidate } from '$app/navigation';
 
-async function fetchQuery({
-	fetch,
-	text = '',
-	variables = {},
-	session,
-	metadata
-}: RequestHandlerArgs) {
+async function fetchQuery({ fetch, text = '', variables = {} }: RequestHandlerArgs) {
 	const url = import.meta.env.VITE_GRAPHQL_ENDPOINT || '/api/graphql';
 
 	const result = await fetch(url, {

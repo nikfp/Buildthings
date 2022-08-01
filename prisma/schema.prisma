@@ -31,6 +31,8 @@ model Customer {
   name String
   phone String @default("970-963-5751")
   projects Project[] 
+  addressId String
+  address Address @relation(fields: [addressId], references: [id])
 }
 
 model Project {
@@ -38,4 +40,14 @@ model Project {
   name String
   customerId String
   customer Customer @relation(fields: [customerId], references: [id])
+  addressId String
+  address Address @relation(fields: [addressId], references: [id])
+}
+
+model Address {
+  id String @id @default(uuid())
+  street String
+  city String
+  projects Project[]
+  customers Customer[]
 }

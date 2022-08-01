@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/.prisma/client';
 import { vi } from 'vitest';
 
 import prisma from '../lib/graphql-server/providers/database';

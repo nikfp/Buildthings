@@ -4,8 +4,6 @@
   import type {GetCustomers} from '$houdini';
   import { Button } from 'agnostic-svelte';
   import { goto } from '$app/navigation';
-  // import Grid from 'gridjs-svelte'
-  // import SvelteTable from "svelte-table";
   import Table from '$components/Table.svelte';
 
   const {data} = query<GetCustomers>(graphql`

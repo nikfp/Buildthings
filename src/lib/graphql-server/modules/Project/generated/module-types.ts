@@ -11,8 +11,8 @@ export namespace ProjectModule {
   };
   
   interface DefinedInputFields {
-    NewProjectInput: 'name' | 'customerId';
-    UpdateProjectInput: 'id' | 'name' | 'customerId';
+    NewProjectInput: 'name' | 'customerId' | 'addressId';
+    UpdateProjectInput: 'id' | 'name' | 'customerId' | 'addressId';
   };
   
   export type Project = Pick<Types.Project, DefinedFields['Project']>;

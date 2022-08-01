@@ -10,8 +10,8 @@ export namespace CustomerModule {
   };
   
   interface DefinedInputFields {
-    NewCustomerInput: 'name' | 'phone';
-    UpdateCustomerInput: 'id' | 'name' | 'phone';
+    NewCustomerInput: 'name' | 'phone' | 'addressId';
+    UpdateCustomerInput: 'id' | 'name' | 'phone' | 'addressId';
   };
   
   export type Customer = Pick<Types.Customer, DefinedFields['Customer']>;

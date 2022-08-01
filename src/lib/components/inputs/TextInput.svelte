@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ValidationMessage } from '@felte/reporter-svelte';
 	import 'agnostic-svelte/css/common.min.css';
-  import { Input, Alert } from "agnostic-svelte";
+  import { Input } from "agnostic-svelte";
 	import { messageJoin } from './inputUtilities';
 
 	export let className = '';

@@ -5,7 +5,8 @@ import type { NewProjectInput, UpdateProjectInput } from '../../generated-types/
 
 export const newProjectSchema: toZod<NewProjectInput> = z.object({
 	name: string().min(5).max(50),
-	customerId: string().uuid()
+	customerId: string().uuid(),
+	addressId: string().uuid()
 });
 
 export const updateProjectSchema: toZod<UpdateProjectInput> = newProjectSchema.extend({
