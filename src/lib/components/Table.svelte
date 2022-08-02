@@ -12,6 +12,7 @@
   /**
    * An array of objects with the same shape. 
    * NOTE that the shape of these objects dictates details of other props
+   * ALSO NOTE that objects need to be flattened for use. 
    */
   export let data: TInput;
 
@@ -69,7 +70,7 @@
   }
 
   td, th {
-    padding: .25rem;
+    padding: .25rem .5rem;
   }
 
   tbody tr:not(:last-of-type){

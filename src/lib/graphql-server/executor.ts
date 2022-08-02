@@ -1,22 +1,17 @@
-import { useErrorHandler, envelop } from '@envelop/core';
-import { useGraphQLModules } from '@envelop/graphql-modules';
+import { useErrorHandler, envelop, useSchema } from '@envelop/core';
 import { useGraphQlJit } from '@envelop/graphql-jit';
-import { createApplication } from 'graphql-modules';
-import Hello from './modules/Hello/Hello';
-import SendInput from './modules/SendInput/SendInput';
-import Customer from './modules/Customer/Customer';
-import Project from './modules/Project/Project';
-import Address from './modules/Address/Address';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import typeDefs from './schema';
+import resolvers from './resolvers';
 
-const graphqlApplication = createApplication({
-	modules: [Hello, SendInput, Customer, Project, Address]
+const schema = makeExecutableSchema({
+	typeDefs,
+	resolvers
 });
-
-const schema = graphqlApplication.schema;
 
 const graphqlExecutor = envelop({
 	plugins: [
-		useGraphQLModules(graphqlApplication),
+		useSchema(schema),
 		useGraphQlJit(),
 		useErrorHandler((errors) => {
 			console.error('useErrorHandler', JSON.stringify(errors, null, 2));
@@ -24,4 +19,4 @@ const graphqlExecutor = envelop({
 	]
 });
 
-export { graphqlApplication, graphqlExecutor, schema };
+export { graphqlExecutor, schema };

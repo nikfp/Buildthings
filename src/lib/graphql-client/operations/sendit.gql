@@ -1,5 +1,0 @@
-mutation SendIt($input: SendInput!) {
-	send(input: $input) {
-		send
-	}
-}

@@ -18,7 +18,6 @@ async function fetchQuery({ fetch, text = '', variables = {} }: RequestHandlerAr
 	});
 
 	const sessionExpiry = result.headers.get('session-expiry');
-	console.log(sessionExpiry);
 
 	if (!sessionExpiry) {
 		await redirectToSignIn();

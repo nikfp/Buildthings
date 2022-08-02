@@ -41,7 +41,6 @@ export async function createCustomer(input: NewCustomerInput) {
 export async function updateCustomer(input: UpdateCustomerInput) {
 	try {
 		const data = updateCustomerSchema.parse(input);
-
 		const address = await prisma.address.findUnique({ where: { id: data.addressId } });
 
 		if (!address) return Promise.reject(new Error('Address not found'));

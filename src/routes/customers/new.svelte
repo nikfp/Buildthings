@@ -8,7 +8,7 @@
 
   const {} = mutation(graphql`
     mutation CreateCustomer($input: NewCustomerInput!) {
-	  CreateCustomer(input: $input) {
+	  createCustomer(input: $input) {
 		id
 		name
     phone
@@ -26,7 +26,7 @@
   validator: newCustomerSchema, 
   mutator: GQL_CreateCustomer, 
   onSuccessfulSubmit: () => {
-    const customerId = $GQL_CreateCustomer.data?.CreateCustomer.id;
+    const customerId = $GQL_CreateCustomer.data?.createCustomer.id;
     goto(`/customers/${customerId}`);
   }
 }}>

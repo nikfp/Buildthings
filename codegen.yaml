@@ -1,25 +1,6 @@
-schema: './src/lib/graphql-server/modules/**/*.ts'
-documents: ./src/lib/**/*.gql
+schema: './src/lib/graphql-server/schema.ts'
+# documents: ./src/lib/**/*.gql
 generates:
-  ./src/lib/graphql-server/modules:
-    preset: graphql-modules
-    presetConfig:
-      baseTypesPath: ../generated-types/graphql.ts
-      filename: generated/module-types.ts
-    plugins:
-      - add:
-          content: '/* eslint-disable */'
-      - add:
-          content: '// @ts-nocheck'
-      - typescript
-      - typescript-resolvers
-    config:
-      useTypeImports: true
-      mappers:
-        Customer: ../providers/database#Customer
-        Project: ../providers/database#Project
-        Address: ../providers/database#Address
-      mapperTypeSuffix: Model
   ./src/lib/graphql-client/generated/graphqlTypes.ts:
     plugins:
       - add:
@@ -42,21 +23,21 @@ generates:
       - typescript-resolvers
     config:
       useTypeImports: true
-  # ./src/lib//graphql-server/generated-types/graphql.ts:
-  #   plugins:
-  #     - add:
-  #         content: '/* eslint-disable */'
-  #     - add:
-  #         content: '// @ts-nocheck'
-  #     - typescript
-  #     - typescript-resolvers
-  #   config:
-  #     mappers:
-  #       Customer: ./src/lib/graphql-server/providers/database#Customer
-  #       Project: ../providers/database#Project
-  #       Address: ../providers/database#Address
-  #     useTypeImports: true
-  #     mapperTypeSuffix: Model
+  ./src/lib//graphql-server/generated-types/graphql.ts:
+    plugins:
+      - add:
+          content: '/* eslint-disable */'
+      - add:
+          content: '// @ts-nocheck'
+      - typescript
+      - typescript-resolvers
+    config:
+      mappers:
+        Customer: ./src/lib/graphql-server/providers/database#Customer
+        Project: ../providers/database#Project
+        Address: ../providers/database#Address
+      useTypeImports: true
+      mapperTypeSuffix: Model
   ./graphql-generated/schema.json:
     plugins:
       - '@graphql-codegen/introspection'

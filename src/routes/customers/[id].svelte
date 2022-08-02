@@ -30,6 +30,9 @@ import AddressPicker from "../../lib/components/AddressPicker.svelte";
         phone
         projects {
           id name
+          address {
+            street city
+          }
         }
         address {
           id city street
@@ -41,7 +44,7 @@ import AddressPicker from "../../lib/components/AddressPicker.svelte";
 
   const {} = mutation(graphql`
     mutation UpdateCustomer($input: UpdateCustomerInput!) {
-      UpdateCustomer(input: $input) {
+      updateCustomer(input: $input) {
         id
         name
       } 
@@ -57,6 +60,13 @@ import AddressPicker from "../../lib/components/AddressPicker.svelte";
     }
   `)
 
+    $: tableData = $data?.getCustomerById.projects?.map(el => {
+      const {id, name, address} = el;
+      const {street, city} = address;
+      return {
+        id, name, street, city
+      }
+    }) ?? null;
 
 </script>
 
@@ -64,14 +74,17 @@ import AddressPicker from "../../lib/components/AddressPicker.svelte";
 <h1>{$data.getCustomerById.name}<span on:click={() => customerDialog.openDialog()} class="edit-button"><Edit/></span></h1>
 <p>{$data.getCustomerById.address.street}, {$data.getCustomerById.address.city}</p>
 <Button type="button" on:click={() => projectDialog.openDialog()}>Create Project</Button>
-{#if $data.getCustomerById.projects}
-<Table data={$data.getCustomerById.projects} key={"id"} fieldConfig={[{fieldName: "name", label: "Project Name"}]}/>
+{#if tableData}
+<Table data={tableData} key={"id"} fieldConfig={[{fieldName: "name", label: "Project Name"}, {fieldName: "street", label: "Street"}, {fieldName: "city", label: "City"}]}/>
 {/if}
 <Dialog bind:this={customerDialog} title="Edit Customer">
   <FormBuilder config={{
     mutator: GQL_UpdateCustomer,
     validator: updateCustomerSchema,
-    onSuccessfulSubmit: () => customerDialog.closeDialog(),
+    onSuccessfulSubmit: async () => {
+      customerDialog.closeDialog();
+      refetch();
+    },
   }}>
 <TextInput name="id" title={"id"} hidden={true} value={$data.getCustomerById.id}/>  
 <TextInput name="name" title={"Name"} value={$data.getCustomerById.name}/>  

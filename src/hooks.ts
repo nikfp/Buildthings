@@ -9,8 +9,6 @@ export const handle: Handle = async function ({ event, resolve }) {
 	}
 
 	const cookies = parse(event.request.headers.get('cookie') || '');
-	console.log('LOGGING COOKIES');
-	console.log(cookies);
 	if (cookies.session_id) {
 		const session = await validateAndRefreshSession(cookies.session_id);
 		if (session) {
