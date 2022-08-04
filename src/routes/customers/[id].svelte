@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
   import { GQL_CreateProject, type Customer$input } from '$houdini'
+  import type { LoadEvent } from '@sveltejs/kit';
   
   export function CustomerVariables(event: LoadEvent): Customer$input {
     const id = event.params["id"];
@@ -10,7 +11,6 @@
 
 <script lang="ts">
   import {query, graphql, mutation, type Customer, GQL_UpdateCustomer} from "$houdini"
-  import type { LoadEvent } from '@sveltejs/kit';
   import FormBuilder from "../../lib/components/FormBuilder.svelte";
   import {updateCustomerSchema} from '$modules/Customer/validators'
   import {newProjectSchema} from "$modules/Project/validators"
@@ -74,25 +74,35 @@
   <Spinner size="xlarge" />
 {/if}
 {#if $data}
-<h1>{$data.getCustomerById.name}<span on:click={() => customerDialog.openDialog()} class="edit-button"><Edit/></span></h1>
+
+<h1>{$data.getCustomerById.name}<Edit on:click={() => customerDialog.openDialog()} /></h1>
+
 <p>{$data.getCustomerById.address.street}, {$data.getCustomerById.address.city}</p>
+
 <Button type="button" on:click={() => projectDialog.openDialog()}>Create Project</Button>
+
 {#if tableData}
-<Table data={tableData} key={"id"} fieldConfig={[{fieldName: "name", label: "Project Name"}, {fieldName: "street", label: "Street"}, {fieldName: "city", label: "City"}]}/>
+  <Table data={tableData} key={"id"} fieldConfig={[
+    {fieldName: "name", label: "Project Name", asLink: {
+      hrefBuilder: (row) => `/projects/${row.id}`
+    }}, 
+    {fieldName: "street", label: "Street"}, 
+    {fieldName: "city", label: "City"}]}/>
 {/if}
+
 <Dialog bind:this={customerDialog} title="Edit Customer">
   <FormBuilder config={{
     mutator: GQL_UpdateCustomer,
     validator: updateCustomerSchema,
     onSuccessfulSubmit: async () => {
+      await refetch({id: $data?.getCustomerById.id ?? ''});
       customerDialog.closeDialog();
-      refetch();
     },
   }}>
-<TextInput name="id" title={"id"} hidden={true} value={$data.getCustomerById.id}/>  
-<TextInput name="name" title={"Name"} value={$data.getCustomerById.name}/>  
-<TextInput name="phone" title={"Phone Number"} value={$data.getCustomerById.phone}/>  
-<AddressPicker selected={$data.getCustomerById.address.id} />
+  <TextInput name="id" title={"id"} hidden={true} value={$data.getCustomerById.id}/>  
+  <TextInput name="name" title={"Name"} value={$data.getCustomerById.name}/>  
+  <TextInput name="phone" title={"Phone Number"} value={$data.getCustomerById.phone}/>  
+  <AddressPicker selected={$data.getCustomerById.address.id} />
 </FormBuilder>
 </Dialog>
 <Dialog bind:this={projectDialog} title="New Project">
@@ -114,8 +124,5 @@
 {/if}
 
 <style>
-  .edit-button {
-    padding: 0 .75rem;
-    height: 3rem;
-  }
+  
 </style>

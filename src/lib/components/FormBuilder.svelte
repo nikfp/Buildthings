@@ -18,7 +18,7 @@
   }; 
 
   
-  const {form} = createForm<TInputType>({
+  const {form, errors} = createForm<TInputType>({
     onSubmit: async(values) => {
       const input = config.validator.parse(values);
       console.log(input);
@@ -38,6 +38,7 @@
 </script>
 
   <form use:form>
+    <p>{JSON.stringify($errors)}</p>
     <slot />
     <Button type="submit" isRounded={true}>Submit</Button>
   </form>
