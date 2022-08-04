@@ -5,7 +5,7 @@ import Navlink from "./Navlink.svelte";
 <nav>
   <Navlink href="/" routeTitle="Home"/>
   <Navlink href="/customers" routeTitle="Customers"/>
-  <Navlink href="/page-b" routeTitle="Page B"/>
+  <Navlink href="/projects" routeTitle="Projects"/>
 </nav>
 
 <style>
