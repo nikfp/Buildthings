@@ -3,6 +3,7 @@
   
   export function CustomerVariables(event: LoadEvent): Customer$input {
     const id = event.params["id"];
+    console.log(`PROJECT ID: ${id}`)
     return {id};
   }
 </script>
@@ -15,14 +16,14 @@
   import {newProjectSchema} from "$modules/Project/validators"
   import Edit from "../../lib/components/icons/Edit.svelte";
   import Dialog from '../../lib/components/Dialog.svelte';
-  import { Button } from 'agnostic-svelte';
-import Table from '$components/Table.svelte';
-import TextInput from "../../lib/components/inputs/TextInput.svelte";
-import AddressPicker from "../../lib/components/AddressPicker.svelte";
+  import { Button, Spinner } from 'agnostic-svelte';
+  import Table from '$components/Table.svelte';
+  import TextInput from "../../lib/components/inputs/TextInput.svelte";
+  import AddressPicker from "../../lib/components/AddressPicker.svelte";
 
   let customerDialog: Dialog; 
   let projectDialog: Dialog;
-  const {data, refetch} = query<Customer>(graphql`
+  const {data, refetch, loading} = query<Customer>(graphql`
     query Customer($id: ID!) {
       getCustomerById(id: $id) {
         id
@@ -69,7 +70,9 @@ import AddressPicker from "../../lib/components/AddressPicker.svelte";
     }) ?? null;
 
 </script>
-
+{#if $loading}
+  <Spinner size="xlarge" />
+{/if}
 {#if $data}
 <h1>{$data.getCustomerById.name}<span on:click={() => customerDialog.openDialog()} class="edit-button"><Edit/></span></h1>
 <p>{$data.getCustomerById.address.street}, {$data.getCustomerById.address.city}</p>

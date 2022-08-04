@@ -2,11 +2,11 @@
   import 'agnostic-svelte/css/common.min.css';
   import {query, graphql } from '$houdini';
   import type {GetCustomers} from '$houdini';
-  import { Button } from 'agnostic-svelte';
+  import { Button, Spinner } from 'agnostic-svelte';
   import { goto } from '$app/navigation';
   import Table from '$components/Table.svelte';
 
-  const {data} = query<GetCustomers>(graphql`
+  const {data, loading} = query<GetCustomers>(graphql`
     query GetCustomers {
 	    getCustomers @list(name: "Customers_List") {
         id
@@ -20,6 +20,10 @@
 <h1>Customers</h1>
 
 <Button type="button" on:click={() => goto("/customers/new")}>Create new customer</Button>
+
+{#if $loading}
+  <Spinner size="xlarge"/>
+{/if}
 
 {#if $data?.getCustomers}
   <Table 
