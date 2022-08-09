@@ -6,7 +6,7 @@
   import type {MutationStore} from "$houdini/runtime/lib/types";
   import { Button } from 'agnostic-svelte';
   import type {Scalars} from '$lib/graphql-client/generated/graphqlTypes'
-
+ 
   type TValidator = $$Generic<toZod<{[key: string]: Scalars[keyof Scalars]}>>;
   type TInputType = TValidator extends toZod<infer P> ? P : never;
   type TMutation = TValidator extends toZod<infer U> ? MutationStore<any, { input: U}> : never;
@@ -28,7 +28,7 @@
       console.log('ERRORS');
 			console.log(error);
     },
-    onSuccess: async (_success) => {
+    onSuccess: async (success) => {
 			console.log('SUCCESS');
 			config.onSuccessfulSubmit && await config.onSuccessfulSubmit();
 		},
@@ -38,7 +38,6 @@
 </script>
 
   <form use:form>
-    <p>{JSON.stringify($errors)}</p>
     <slot />
     <Button type="submit" isRounded={true}>Submit</Button>
   </form>

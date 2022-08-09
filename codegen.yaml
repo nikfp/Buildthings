@@ -29,6 +29,8 @@ generates:
           content: '/* eslint-disable */'
       - add:
           content: '// @ts-nocheck'
+      - add:
+          content: '// @ts-ignore'
       - typescript
       - typescript-resolvers
     config:
@@ -36,6 +38,7 @@ generates:
         Customer: ./src/lib/graphql-server/providers/database#Customer
         Project: ../providers/database#Project
         Address: ../providers/database#Address
+        Contact: ../providers/database#Contact
       useTypeImports: true
       mapperTypeSuffix: Model
   ./graphql-generated/schema.json:

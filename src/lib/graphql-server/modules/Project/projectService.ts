@@ -21,6 +21,18 @@ export async function getProjectsByAddressId(addressId: string) {
 	return await prisma.project.findMany({ where: { addressId } });
 }
 
+export async function getProjectsByContactId(contactId: string) {
+	return await prisma.project.findMany({
+		where: {
+			contacts: {
+				some: {
+					id: contactId
+				}
+			}
+		}
+	});
+}
+
 export async function createProject(input: NewProjectInput) {
 	try {
 		const { name, customerId, addressId } = newProjectSchema.parse(input);

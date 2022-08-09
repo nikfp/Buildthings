@@ -8,7 +8,7 @@ generator client {
 
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -33,6 +33,7 @@ model Customer {
   projects Project[] 
   addressId String
   address Address @relation(fields: [addressId], references: [id])
+  contacts Contact[]
 }
 
 model Project {
@@ -42,6 +43,7 @@ model Project {
   customer Customer @relation(fields: [customerId], references: [id])
   addressId String
   address Address @relation(fields: [addressId], references: [id])
+  contacts Contact[]
 }
 
 model Address {
@@ -50,4 +52,14 @@ model Address {
   city String
   projects Project[]
   customers Customer[]
+}
+
+model Contact {
+  id String @id @default(uuid())
+  firstName String
+  lastName String?
+  phone String
+  projects Project[]
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId String
 }

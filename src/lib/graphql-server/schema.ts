@@ -7,12 +7,22 @@ const typeDefs = /* GraphQL */ `
 		customers: [Customer!]
 	}
 
+	type Contact {
+		id: ID!
+		firstName: String!
+		lastName: String
+		phone: String!
+		projects: [Project!]
+		customer: Customer!
+	}
+
 	type Customer {
 		id: ID!
 		name: String!
 		phone: String!
 		projects: [Project!]
 		address: Address!
+		contacts: [Contact!]
 	}
 
 	type Project {
@@ -20,6 +30,7 @@ const typeDefs = /* GraphQL */ `
 		name: String!
 		customer: Customer
 		address: Address!
+		contacts: [Contact!]
 	}
 
 	type Query {
@@ -39,6 +50,21 @@ const typeDefs = /* GraphQL */ `
 		id: ID!
 		street: String!
 		city: String!
+	}
+
+	input NewContactInput {
+		firstName: String!
+		lastName: String
+		phone: String!
+		customerId: String!
+	}
+
+	input UpdateContactInput {
+		id: ID!
+		firstName: String!
+		lastName: String
+		phone: String!
+		customerId: String!
 	}
 
 	input NewCustomerInput {
@@ -74,6 +100,8 @@ const typeDefs = /* GraphQL */ `
 		updateAddress(input: UpdateAddressInput!): Address!
 		updateCustomer(input: UpdateCustomerInput!): Customer!
 		updateProject(input: UpdateProjectInput!): Project!
+		createContact(input: NewContactInput!): Contact!
+		updateContact(input: UpdateContactInput!): Contact!
 	}
 `;
 

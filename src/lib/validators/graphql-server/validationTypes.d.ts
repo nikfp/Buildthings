@@ -25,9 +25,20 @@ export type Address = {
   street: Scalars['String'];
 };
 
+export type Contact = {
+  __typename?: 'Contact';
+  customer: Customer;
+  firstName: Scalars['String'];
+  id: Scalars['ID'];
+  lastName?: Maybe<Scalars['String']>;
+  phone: Scalars['String'];
+  projects?: Maybe<Array<Project>>;
+};
+
 export type Customer = {
   __typename?: 'Customer';
   address: Address;
+  contacts?: Maybe<Array<Contact>>;
   id: Scalars['ID'];
   name: Scalars['String'];
   phone: Scalars['String'];
@@ -37,9 +48,11 @@ export type Customer = {
 export type Mutation = {
   __typename?: 'Mutation';
   createAddress: Address;
+  createContact: Contact;
   createCustomer: Customer;
   createProject: Project;
   updateAddress: Address;
+  updateContact: Contact;
   updateCustomer: Customer;
   updateProject: Project;
 };
@@ -47,6 +60,11 @@ export type Mutation = {
 
 export type MutationCreateAddressArgs = {
   input: NewAddressInput;
+};
+
+
+export type MutationCreateContactArgs = {
+  input: NewContactInput;
 };
 
 
@@ -65,6 +83,11 @@ export type MutationUpdateAddressArgs = {
 };
 
 
+export type MutationUpdateContactArgs = {
+  input: UpdateContactInput;
+};
+
+
 export type MutationUpdateCustomerArgs = {
   input: UpdateCustomerInput;
 };
@@ -77,6 +100,13 @@ export type MutationUpdateProjectArgs = {
 export type NewAddressInput = {
   city: Scalars['String'];
   street: Scalars['String'];
+};
+
+export type NewContactInput = {
+  customerId: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName?: InputMaybe<Scalars['String']>;
+  phone: Scalars['String'];
 };
 
 export type NewCustomerInput = {
@@ -94,6 +124,7 @@ export type NewProjectInput = {
 export type Project = {
   __typename?: 'Project';
   address: Address;
+  contacts?: Maybe<Array<Contact>>;
   customer?: Maybe<Customer>;
   id: Scalars['ID'];
   name: Scalars['String'];
@@ -122,6 +153,14 @@ export type UpdateAddressInput = {
   city: Scalars['String'];
   id: Scalars['ID'];
   street: Scalars['String'];
+};
+
+export type UpdateContactInput = {
+  customerId: Scalars['String'];
+  firstName: Scalars['String'];
+  id: Scalars['ID'];
+  lastName?: InputMaybe<Scalars['String']>;
+  phone: Scalars['String'];
 };
 
 export type UpdateCustomerInput = {
@@ -209,16 +248,19 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Address: ResolverTypeWrapper<Address>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Contact: ResolverTypeWrapper<Contact>;
   Customer: ResolverTypeWrapper<Customer>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Mutation: ResolverTypeWrapper<{}>;
   NewAddressInput: NewAddressInput;
+  NewContactInput: NewContactInput;
   NewCustomerInput: NewCustomerInput;
   NewProjectInput: NewProjectInput;
   Project: ResolverTypeWrapper<Project>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   UpdateAddressInput: UpdateAddressInput;
+  UpdateContactInput: UpdateContactInput;
   UpdateCustomerInput: UpdateCustomerInput;
   UpdateProjectInput: UpdateProjectInput;
 };
@@ -227,16 +269,19 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Address: Address;
   Boolean: Scalars['Boolean'];
+  Contact: Contact;
   Customer: Customer;
   ID: Scalars['ID'];
   Mutation: {};
   NewAddressInput: NewAddressInput;
+  NewContactInput: NewContactInput;
   NewCustomerInput: NewCustomerInput;
   NewProjectInput: NewProjectInput;
   Project: Project;
   Query: {};
   String: Scalars['String'];
   UpdateAddressInput: UpdateAddressInput;
+  UpdateContactInput: UpdateContactInput;
   UpdateCustomerInput: UpdateCustomerInput;
   UpdateProjectInput: UpdateProjectInput;
 };
@@ -250,8 +295,19 @@ export type AddressResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ContactResolvers<ContextType = any, ParentType extends ResolversParentTypes['Contact'] = ResolversParentTypes['Contact']> = {
+  customer?: Resolver<ResolversTypes['Customer'], ParentType, ContextType>;
+  firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  phone?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  projects?: Resolver<Maybe<Array<ResolversTypes['Project']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type CustomerResolvers<ContextType = any, ParentType extends ResolversParentTypes['Customer'] = ResolversParentTypes['Customer']> = {
   address?: Resolver<ResolversTypes['Address'], ParentType, ContextType>;
+  contacts?: Resolver<Maybe<Array<ResolversTypes['Contact']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   phone?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -261,15 +317,18 @@ export type CustomerResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createAddress?: Resolver<ResolversTypes['Address'], ParentType, ContextType, RequireFields<MutationCreateAddressArgs, 'input'>>;
+  createContact?: Resolver<ResolversTypes['Contact'], ParentType, ContextType, RequireFields<MutationCreateContactArgs, 'input'>>;
   createCustomer?: Resolver<ResolversTypes['Customer'], ParentType, ContextType, RequireFields<MutationCreateCustomerArgs, 'input'>>;
   createProject?: Resolver<ResolversTypes['Project'], ParentType, ContextType, RequireFields<MutationCreateProjectArgs, 'input'>>;
   updateAddress?: Resolver<ResolversTypes['Address'], ParentType, ContextType, RequireFields<MutationUpdateAddressArgs, 'input'>>;
+  updateContact?: Resolver<ResolversTypes['Contact'], ParentType, ContextType, RequireFields<MutationUpdateContactArgs, 'input'>>;
   updateCustomer?: Resolver<ResolversTypes['Customer'], ParentType, ContextType, RequireFields<MutationUpdateCustomerArgs, 'input'>>;
   updateProject?: Resolver<ResolversTypes['Project'], ParentType, ContextType, RequireFields<MutationUpdateProjectArgs, 'input'>>;
 };
 
 export type ProjectResolvers<ContextType = any, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = {
   address?: Resolver<ResolversTypes['Address'], ParentType, ContextType>;
+  contacts?: Resolver<Maybe<Array<ResolversTypes['Contact']>>, ParentType, ContextType>;
   customer?: Resolver<Maybe<ResolversTypes['Customer']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -286,6 +345,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type Resolvers<ContextType = any> = {
   Address?: AddressResolvers<ContextType>;
+  Contact?: ContactResolvers<ContextType>;
   Customer?: CustomerResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Project?: ProjectResolvers<ContextType>;

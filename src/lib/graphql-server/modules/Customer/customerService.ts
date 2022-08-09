@@ -17,6 +17,19 @@ export async function getCustomersByAddressId(addressId: string) {
 	return await prisma.customer.findMany({ where: { addressId } });
 }
 
+export async function getCustomerByContactId(contactId: string) {
+	return await prisma.customer.findFirst({
+		where: {
+			contacts: {
+				some: {
+					id: contactId
+				}
+			}
+		},
+		rejectOnNotFound: true
+	});
+}
+
 export async function createCustomer(input: NewCustomerInput) {
 	try {
 		const { name, addressId } = newCustomerSchema.parse(input);

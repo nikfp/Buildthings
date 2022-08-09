@@ -24,9 +24,20 @@ export type Address = {
   street: Scalars['String'];
 };
 
+export type Contact = {
+  __typename?: 'Contact';
+  customer: Customer;
+  firstName: Scalars['String'];
+  id: Scalars['ID'];
+  lastName?: Maybe<Scalars['String']>;
+  phone: Scalars['String'];
+  projects?: Maybe<Array<Project>>;
+};
+
 export type Customer = {
   __typename?: 'Customer';
   address: Address;
+  contacts?: Maybe<Array<Contact>>;
   id: Scalars['ID'];
   name: Scalars['String'];
   phone: Scalars['String'];
@@ -36,9 +47,11 @@ export type Customer = {
 export type Mutation = {
   __typename?: 'Mutation';
   createAddress: Address;
+  createContact: Contact;
   createCustomer: Customer;
   createProject: Project;
   updateAddress: Address;
+  updateContact: Contact;
   updateCustomer: Customer;
   updateProject: Project;
 };
@@ -46,6 +59,11 @@ export type Mutation = {
 
 export type MutationCreateAddressArgs = {
   input: NewAddressInput;
+};
+
+
+export type MutationCreateContactArgs = {
+  input: NewContactInput;
 };
 
 
@@ -64,6 +82,11 @@ export type MutationUpdateAddressArgs = {
 };
 
 
+export type MutationUpdateContactArgs = {
+  input: UpdateContactInput;
+};
+
+
 export type MutationUpdateCustomerArgs = {
   input: UpdateCustomerInput;
 };
@@ -76,6 +99,13 @@ export type MutationUpdateProjectArgs = {
 export type NewAddressInput = {
   city: Scalars['String'];
   street: Scalars['String'];
+};
+
+export type NewContactInput = {
+  customerId: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName?: InputMaybe<Scalars['String']>;
+  phone: Scalars['String'];
 };
 
 export type NewCustomerInput = {
@@ -93,6 +123,7 @@ export type NewProjectInput = {
 export type Project = {
   __typename?: 'Project';
   address: Address;
+  contacts?: Maybe<Array<Contact>>;
   customer?: Maybe<Customer>;
   id: Scalars['ID'];
   name: Scalars['String'];
@@ -121,6 +152,14 @@ export type UpdateAddressInput = {
   city: Scalars['String'];
   id: Scalars['ID'];
   street: Scalars['String'];
+};
+
+export type UpdateContactInput = {
+  customerId: Scalars['String'];
+  firstName: Scalars['String'];
+  id: Scalars['ID'];
+  lastName?: InputMaybe<Scalars['String']>;
+  phone: Scalars['String'];
 };
 
 export type UpdateCustomerInput = {

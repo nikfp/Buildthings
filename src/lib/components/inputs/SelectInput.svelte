@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { ValidationMessage } from '@felte/reporter-svelte';
-import { Button } from 'agnostic-svelte';
+  import { Button } from 'agnostic-svelte';
   
   export let name: string;
   export let inputMessage: string;
   export let title: string | undefined;
   export let values: {key: string, value: string, optionText: string}[];
   export let selected: string | undefined = undefined;
-  export let addNew: {optionText: string, onSelected: () => any | Promise<any>} | undefined = undefined;
+  export let addNew: {buttonText: string, onSelected: () => any | Promise<any>} | undefined = undefined;
 
  
 </script>
@@ -16,17 +16,17 @@ import { Button } from 'agnostic-svelte';
   <div class="select-wrapper">
 	  <ValidationMessage for={name} let:messages={message}>
       {#if addNew}
-      <Button type={"button"} on:click={() => addNew?.onSelected()}>{addNew.optionText}</Button>
+      <Button type={"button"} on:click={() => addNew?.onSelected()}>{addNew.buttonText}</Button>
       {/if}
-    <label class="select-label" for={name}>{title ?? name}</label>
-    <select name={name} class="select">
-      <option value="">{inputMessage}</option>
-      {#each values as value}
-      <option selected={value.key === selected} value={value.value}>{value.optionText}</option>
-      {/each}
-    </select>
-	</ValidationMessage>
-</div>
+      <label class="select-label" for={name}>{title ?? name}</label>
+      <select name={name} class="select">
+        <option value="">{inputMessage}</option>
+        {#each values as value}
+        <option selected={value.key === selected} value={value.value}>{value.optionText}</option>
+        {/each}
+      </select>
+    </ValidationMessage>
+  </div>
 
 <style>
   .select-wrapper {

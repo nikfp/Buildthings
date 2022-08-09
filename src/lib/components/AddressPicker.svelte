@@ -34,6 +34,6 @@
       addressDialog.closeDialog();
       }}/>
   </Dialog>
-  <SelectInput {selected} values={addresses} name="addressId" title="Address" inputMessage="Select an address" addNew={{optionText: "Add New Address", onSelected: () => addressDialog.openDialog()}}/>
+  <SelectInput {selected} values={addresses} name="addressId" title="Address" inputMessage="Select an address" addNew={{buttonText: "Add New Address", onSelected: () => addressDialog.openDialog()}}/>
 {/if}
 <!-- <SelectInput /> -->
