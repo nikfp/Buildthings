@@ -16,15 +16,18 @@
   <div class="select-wrapper">
 	  <ValidationMessage for={name} let:messages={message}>
       {#if addNew}
-      <Button type={"button"} on:click={() => addNew?.onSelected()}>{addNew.buttonText}</Button>
+      <Button size="small" type={"button"} on:click={() => addNew?.onSelected()}>{addNew.buttonText}</Button>
       {/if}
-      <label class="select-label" for={name}>{title ?? name}</label>
-      <select name={name} class="select">
+      <label class={`select-label ${message ? "select-warning" : ""}`} for={name}>{title ?? name}</label>
+      <select name={name} class={`select ${message ? "select-warning" : ""}`}>
         <option value="">{inputMessage}</option>
         {#each values as value}
-        <option selected={value.key === selected} value={value.value}>{value.optionText}</option>
+        <option selected={value.value === selected} value={value.value}>{value.optionText}</option>
         {/each}
       </select>
+      {#if message}
+        <p class="select-warning">{message}</p>
+      {/if}  
     </ValidationMessage>
   </div>
 
@@ -33,6 +36,7 @@
     width: 100%;
     max-width: 100%;
     padding-top: 1rem;
+    padding-bottom: 2rem;
   }
 
   .select-label {
@@ -49,6 +53,7 @@
     line-height: var(--agnostic-line-height, var(--fluid-20, 1.25rem));
     width: 100%;
     max-width: 100%;
+    margin-top: 1rem;
   }
   
   .select {
@@ -74,5 +79,10 @@
 
   .select option {
     color: black;
+  }
+
+  .select-warning {
+    color:  var(--agnostic-input-error-color, var(--agnostic-error));
+    border-color: var(--agnostic-input-error-color, var(--agnostic-error));
   }
 </style>

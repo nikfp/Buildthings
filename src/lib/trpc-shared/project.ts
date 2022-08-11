@@ -11,7 +11,7 @@ export const updateProjectSchema: toZod<Project> = z.object({
 		.min(1)
 		.max(50)
 		.regex(nameRegex, 'Project name contains an invalid character'),
-	addressId: z.string().uuid(),
+	addressId: z.string().uuid('Address is required - no valid address selected'),
 	customerId: z.string().uuid()
 });
 
