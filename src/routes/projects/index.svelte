@@ -1,26 +1,16 @@
 <script lang="ts">
-  import {query, graphql} from '$houdini';
-  import type {GetAllProjects} from "$houdini"
   import Table from '../../lib/components/Table.svelte';
   import { Spinner } from 'agnostic-svelte';
+  import trpcClient, {type InferQueryOutput} from '../../lib/trpc-client';
+  import { onMount } from 'svelte';
   
-  const {data, loading} = query<GetAllProjects>(graphql`
-  query GetAllProjects {
-    getProjects {
-      id
-      name
-      address {
-        city
-        street
-      }
-      customer {
-        id name
-      }
-    }
-  }
-  `)
+  let projects: InferQueryOutput<"project:getWithDetails"> | null = null;
 
-  $: preparedProjects = $data?.getProjects?.map(el => {
+  onMount(async () => {
+    projects = await trpcClient.query("project:getWithDetails");
+  })
+
+  $: preparedProjects = projects?.map(el => {
     const {id, name, address, customer} = el;
     const {city, street} = address;
     const customerName = customer?.name ?? "";
@@ -35,7 +25,7 @@
 
 <h1>Projects</h1>
 
-{#if $loading }
+{#if !projects }
   <Spinner size="xlarge"/>
 {/if}   
 

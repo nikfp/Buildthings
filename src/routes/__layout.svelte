@@ -2,10 +2,6 @@
 	import type { Load } from '@sveltejs/kit';
 	import {session} from '$app/stores'
 
-	import {houdiniClient} from '$lib/graphql-client/client'; 
-	
-	houdiniClient.init();
-
 	export const load: Load = async function ({ url, session }) {
 		console.log('Layout Loading');
 		if (!session.user) {
@@ -28,10 +24,12 @@
 	import Nav from '../lib/components/layout/Nav.svelte';
 	import '../../static/style.css';
 	import Footer from '../lib/components/layout/Footer.svelte';
+	import {SvelteToast} from '@zerodevx/svelte-toast'
 
 </script>
 
 <div class="app-container">
+	<SvelteToast />
 
 <Header />
 

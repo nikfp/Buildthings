@@ -17,12 +17,8 @@
 		"paths": {
 			"$lib": ["src/lib"],
 			"$lib/*": ["src/lib/*"],
-			"$graphql": ["src/lib/graphql-client"],
-			"$graphql/*": ["src/lib/graphql-client/*"],
-			"$houdini": ["$houdini"],
-			"$providers/*": ["src/lib/graphql-server/providers/*"],
+			"$providers/*": ["src/lib/providers/*"],
 			"$components/*": ["src/lib/components/*"],
-			"$modules/*": ["src/lib/graphql-server/modules/*"]
 		},
 		"composite": true
 	}

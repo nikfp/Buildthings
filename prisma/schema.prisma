@@ -28,8 +28,8 @@ model Session {
 
 model Customer {
   id String @id @default(uuid())
-  name String
-  phone String @default("970-963-5751")
+  name String @unique
+  phone String 
   projects Project[] 
   addressId String
   address Address @relation(fields: [addressId], references: [id])

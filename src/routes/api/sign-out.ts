@@ -1,4 +1,4 @@
-import { removeSession } from '$lib/graphql-server/services/userService';
+import { removeSession } from '$lib/services/userService';
 import { parse, serialize } from 'cookie';
 import type { RequestHandler } from '@sveltejs/kit';
 

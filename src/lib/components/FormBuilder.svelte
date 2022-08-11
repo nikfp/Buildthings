@@ -18,7 +18,7 @@
   }; 
 
   
-  const {form, errors} = createForm<TInputType>({
+  const {form } = createForm<TInputType>({
     onSubmit: async(values) => {
       const input = config.validator.parse(values);
       console.log(input);

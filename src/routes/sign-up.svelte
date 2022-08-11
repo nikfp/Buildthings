@@ -2,8 +2,8 @@
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
 	import { reporter } from '@felte/reporter-svelte';
-	import { signupSchema as schema } from '$lib/graphql-server/validators/authValidators';
-	import type { SignUpSchema } from '$lib/graphql-server/validators/authValidators';
+	import { signupSchema as schema } from '$lib/validators/authValidators';
+	import type { SignUpSchema } from '$lib/validators/authValidators';
 	import 'agnostic-svelte/css/common.min.css';
 	import { Button } from 'agnostic-svelte';
 

@@ -2,8 +2,8 @@
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
 	import { reporter } from '@felte/reporter-svelte';
-	import { signinSchema as schema } from '../lib/graphql-server/validators/authValidators';
-	import type { SignInSchema } from '../lib/graphql-server/validators/authValidators';
+	import { signinSchema as schema } from '../lib/validators/authValidators';
+	import type { SignInSchema } from '../lib/validators/authValidators';
 	import TextInput from '../lib/components/inputs/TextInput.svelte';
 	import { page } from '$app/stores';
 	import 'agnostic-svelte/css/common.min.css';
