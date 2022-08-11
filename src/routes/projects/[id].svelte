@@ -1,73 +1,69 @@
 <script context="module" lang="ts">
-  import type { Project$input} from '$houdini'
-  import type { LoadEvent } from '@sveltejs/kit';
+  import type { LoadEvent, Load } from '@sveltejs/kit';
 
-  
-  export function ProjectVariables(event: LoadEvent): Project$input {
+  export const load: Load = (event: LoadEvent) => {
     const id = event.params["id"];
-    return {id};
+    return {
+      props: {
+        id
+      }
+    }
   }
 </script>
 
 <script lang="ts">
-  import {query, graphql, mutation, type Project, GQL_UpdateProject} from "$houdini";
-  import Edit from '../../lib/components/icons/Edit.svelte';
-  import { Spinner } from 'agnostic-svelte';
+  import {onMount} from 'svelte';
+  
+  import {updateProjectSchema} from '$shared/project'
+
+  import AddressPicker from "$components/AddressPicker.svelte";
   import Dialog from "$components/Dialog.svelte"
-  import FormBuilder from "../../lib/components/FormBuilder.svelte";
-  import {updateProjectSchema} from '$modules/Project/validators'
-  import TextInput from "../../lib/components/inputs/TextInput.svelte";
-  import AddressPicker from "../../lib/components/AddressPicker.svelte";
+  import Edit from '$components/icons/Edit.svelte';
+  import TextInput from "$components/inputs/TextInput.svelte";
+  import { Spinner } from 'agnostic-svelte';
+  import TrpcFormBuilder from "$components/TrpcFormBuilder.svelte";
+  
+  import trpcClient, { type InferQueryOutput } from '$client'
+  import { successToast } from '$components/toast';
+
+  
+  export let id: string;
+
+  let project: InferQueryOutput<"project:getByIdWithDetails"> | null = null;
+
+  onMount(async () => {
+    project = await trpcClient.query("project:getByIdWithDetails", {id})
+  })
 
   let projectDialog: Dialog;
 
-  const {data, loading, refetch} = query<Project>(graphql`
-    query Project ($id:ID!) {
-    getProjectById(id:$id) {
-      id name 
-      address {
-        city street id
-      }
-      customer {
-        name id
-      }
-    }
-  }
-  `)
-
-  mutation(graphql`
-    mutation UpdateProject($input: UpdateProjectInput!) {
-      updateProject(input: $input) {
-        id
-        name
-      }
-    }
-  `)
 </script>
 
-{#if $loading}
+{#if !project}
   <Spinner size="xlarge" />
 {/if}
-{#if $data}
+{#if project}
 
-  <h1>{$data.getProjectById.name}<Edit on:click={() => {
+  <h1>{project.name}<Edit on:click={() => {
     console.log("clicked");
     projectDialog.openDialog();
   }} ></Edit></h1>
-  <p>{$data.getProjectById.address.street}, {$data.getProjectById.address.city}</p>
+  <p>{project.address.street}, {project.address.city}</p>
 
   <Dialog bind:this={projectDialog} title="Edit Project Info">
-    <FormBuilder config={{
-      validator: updateProjectSchema,
-      mutator: GQL_UpdateProject,
-      onSuccessfulSubmit: async () => {
-        await refetch({id: $data?.getProjectById.id ?? ""});
+    <TrpcFormBuilder 
+      opName={"project:update"} 
+      inputValidator={updateProjectSchema}
+      onSuccessfulSubmit={async () => {
         projectDialog.closeDialog();
-      }}}>
-      <TextInput name="id" hidden title="id" value={$data.getProjectById.id}/>
-      <TextInput name="name" title="Project Name" value={$data.getProjectById.name} />
-      <TextInput name="customerId" title="customerId" hidden value={$data.getProjectById.customer?.id}/>
-      <AddressPicker selected={$data.getProjectById.address.id}/>
-    </FormBuilder>
+        project = await trpcClient.query("project:getByIdWithDetails", {id});
+        successToast("Project updated")
+      }}
+      >
+      <TextInput name="id" hidden title="id" value={project.id}/>
+      <TextInput name="name" title="Project Name" value={project.name} />
+      <TextInput name="customerId" title="customerId" hidden value={project.customer.id}/>
+      <AddressPicker selected={project.address.id}/>
+    </TrpcFormBuilder>
   </Dialog>
 {/if}

@@ -1,6 +1,5 @@
 <script lang="ts">
-  import type {Scalars} from '$graphql/generated/graphqlTypes'
-  type TInput = $$Generic<{[key: string]: Scalars[keyof Scalars]}[]>
+  type TInput = $$Generic<{[key: string]: T extends infer U ? U : T}[]>
   type TInputType = TInput[0];
 
   type TKeyName = keyof TInputType

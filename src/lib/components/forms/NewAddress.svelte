@@ -1,6 +1,7 @@
 <script lang="ts">
+  import {newAddressSchema} from '$shared/address'
+  
   import TextInput from "../inputs/TextInput.svelte";
-  import {newAddressSchema} from '../../trpc-shared/address'
   import TrpcFormBuilder from "../TrpcFormBuilder.svelte";
 
   export let onSuccessfulSubmit: () => any | Promise<any> = () => {};

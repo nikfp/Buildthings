@@ -14,18 +14,21 @@
 </script>
 
 <script lang="ts">
-  import {updateCustomerSchema} from '$lib/trpc-shared/customer'
-  import {newProjectSchema} from "$lib/trpc-shared/project"
-  import Edit from "../../lib/components/icons/Edit.svelte";
-  import Dialog from '../../lib/components/Dialog.svelte';
-  import { Button, Spinner } from 'agnostic-svelte';
-  import Table from '$components/Table.svelte';
-  import TextInput from "../../lib/components/inputs/TextInput.svelte";
-  import AddressPicker from "../../lib/components/AddressPicker.svelte";
-  import type { InferQueryOutput } from '../../lib/trpc-client';
   import { onMount } from 'svelte';
-  import trpcClient from '../../lib/trpc-client';
-  import TrpcFormBuilder from "../../lib/components/TrpcFormBuilder.svelte";
+
+  import {updateCustomerSchema} from '$shared/customer'
+  import {newProjectSchema} from "$shared/project"
+  
+  import AddressPicker from "$components/AddressPicker.svelte";
+  import Edit from "$components/icons/Edit.svelte";
+  import Dialog from '$components/Dialog.svelte';
+  import Table from '$components/Table.svelte';
+  import TextInput from "$components/inputs/TextInput.svelte";
+  import TrpcFormBuilder from "$components/TrpcFormBuilder.svelte";
+  
+  import { Button, Spinner } from 'agnostic-svelte';
+  import type { InferQueryOutput } from '$client';
+  import trpcClient from '$client';
 
   export let id: string;
 

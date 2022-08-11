@@ -1,10 +1,13 @@
 <script lang="ts">
   import {goto} from "$app/navigation";
-  import TextInput from '../../lib/components/inputs/TextInput.svelte';
-  import AddressPicker from '../../lib/components/AddressPicker.svelte';
-  import TrpcFormBuilder from '../../lib/components/TrpcFormBuilder.svelte';
-  import { newCustomerSchema } from '../../lib/trpc-shared/customer';
-  import { successToast } from '../../lib/components/toast';
+
+  import { newCustomerSchema } from '$shared/customer';
+
+  import AddressPicker from '$components/AddressPicker.svelte';
+  import TextInput from '$components/inputs/TextInput.svelte';
+  import TrpcFormBuilder from '$components/TrpcFormBuilder.svelte';
+  
+  import { successToast } from '$components/toast';
 
 </script>
 

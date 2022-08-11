@@ -18,12 +18,14 @@
 </script>
 
 <script lang="ts">
-	import SignOut from '$lib/components/SignOut.svelte';
 	import 'agnostic-svelte/css/common.min.css';
-	import Header from '$lib/components/layout/Header.svelte';
-	import Nav from '../lib/components/layout/Nav.svelte';
 	import '../../static/style.css';
+
 	import Footer from '../lib/components/layout/Footer.svelte';
+	import Header from '$lib/components/layout/Header.svelte';
+	import Nav from '$components/layout/Nav.svelte';
+	import SignOut from '$lib/components/SignOut.svelte';
+	
 	import {SvelteToast} from '@zerodevx/svelte-toast'
 
 </script>

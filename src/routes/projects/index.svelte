@@ -1,8 +1,11 @@
 <script lang="ts">
-  import Table from '../../lib/components/Table.svelte';
-  import { Spinner } from 'agnostic-svelte';
-  import trpcClient, {type InferQueryOutput} from '../../lib/trpc-client';
   import { onMount } from 'svelte';
+
+  import Table from '$components/Table.svelte';
+  import { Spinner } from 'agnostic-svelte';
+
+  import trpcClient, {type InferQueryOutput} from '$client';
+  
   
   let projects: InferQueryOutput<"project:getWithDetails"> | null = null;
 

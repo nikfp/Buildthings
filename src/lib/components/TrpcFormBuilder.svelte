@@ -7,7 +7,7 @@
   import { Button } from 'agnostic-svelte';
   import { errorToast } from '$components/toast'
 
-  import trpcClient from "../trpc-client";
+  import trpcClient from "$client";
 
   type TMutationName = $$Generic<Mutation>;
 

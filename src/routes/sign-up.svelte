@@ -1,13 +1,16 @@
 <script lang="ts">
+	import 'agnostic-svelte/css/common.min.css';
+
+	import { signupSchema as schema } from '$lib/validators/authValidators';
+	import type { SignUpSchema } from '$lib/validators/authValidators';
+
+	import TextInput from '$lib/components/inputs/TextInput.svelte';
+	
+	import { Button } from 'agnostic-svelte';
 	import { createForm } from 'felte';
 	import { validator } from '@felte/validator-zod';
 	import { reporter } from '@felte/reporter-svelte';
-	import { signupSchema as schema } from '$lib/validators/authValidators';
-	import type { SignUpSchema } from '$lib/validators/authValidators';
-	import 'agnostic-svelte/css/common.min.css';
-	import { Button } from 'agnostic-svelte';
 
-	import TextInput from '$lib/components/inputs/TextInput.svelte';
 
 	let formError = '';
 

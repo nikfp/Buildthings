@@ -1,6 +1,10 @@
 import { router } from '@trpc/server';
 import prisma from '$providers/database';
-import { newProjectSchema, updateProjectSchema } from '../../trpc-shared/project';
+import {
+	newProjectSchema,
+	updateProjectSchema,
+	getProjectWithDetailsSchema
+} from '../../trpc-shared/project';
 import { logger } from '../../utilities/logger';
 
 const location = 'project';
@@ -14,6 +18,20 @@ export const projectRouter = router()
 	.query('getWithDetails', {
 		resolve: async () => {
 			return await prisma.project.findMany({
+				include: {
+					customer: true,
+					address: true
+				}
+			});
+		}
+	})
+	.query('getByIdWithDetails', {
+		input: getProjectWithDetailsSchema,
+		resolve: async ({ input }) => {
+			return await prisma.project.findUniqueOrThrow({
+				where: {
+					id: input.id
+				},
 				include: {
 					customer: true,
 					address: true

@@ -19,6 +19,8 @@
 			"$lib/*": ["src/lib/*"],
 			"$providers/*": ["src/lib/providers/*"],
 			"$components/*": ["src/lib/components/*"],
+			"$shared/*": ["src/lib/trpc-shared/*"],
+			"$client": ["src/lib/trpc-client/index"]
 		},
 		"composite": true
 	}

@@ -16,3 +16,5 @@ export const updateProjectSchema: toZod<Project> = z.object({
 });
 
 export const newProjectSchema = updateProjectSchema.omit({ id: true });
+
+export const getProjectWithDetailsSchema = updateProjectSchema.pick({ id: true });

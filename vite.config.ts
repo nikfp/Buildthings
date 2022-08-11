@@ -1,4 +1,3 @@
-import { defineConfig } from 'vitest/config';
 import { sveltekit } from '@sveltejs/kit/vite';
 import path from 'path';
 
@@ -9,6 +8,8 @@ const config = {
 		alias: {
 			$providers: path.resolve('src', 'lib', 'providers'),
 			$components: path.resolve('src', 'lib', 'components'),
+			$shared: path.resolve('src', 'lib', 'trpc-shared'),
+			$client: path.resolve('src', 'lib', 'trpc-client')
 		}
 	},
 	server: {
@@ -36,22 +37,3 @@ const config = {
 };
 
 export default config;
-// export default defineConfig({
-// test: {
-// 	globals: true,
-// 	coverage: {
-// 		all: true,
-// 		skipFull: true,
-// 		src: ['./src'],
-// 		exclude: [
-// 			'**/generated/**/*',
-// 			'**/graphql-client/**/*',
-// 			'**/*.d.ts',
-// 			'**/*.spec.ts',
-// 			'**/*.svelte',
-// 			'**/generated-types/**/*',
-// 			'**/*/graphql-server/executor.ts'
-// 		]
-// 	}
-// }
-// });

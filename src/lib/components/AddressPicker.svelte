@@ -1,11 +1,16 @@
 <script lang="ts">
-  import SelectInput from "./inputs/SelectInput.svelte";
-  import Dialog from "./Dialog.svelte";
-  import NewAddress from "./forms/NewAddress.svelte";
-  import type {InferQueryOutput} from '../trpc-client'
-  import trpcClient from "../trpc-client";
   import { onMount } from "svelte";
-import { successToast } from "./toast";
+
+  import Dialog from "./Dialog.svelte";
+  import SelectInput from "./inputs/SelectInput.svelte";
+  
+  import NewAddress from "./forms/NewAddress.svelte";
+  
+  import type {InferQueryOutput} from '$client'
+  import trpcClient from "$client";
+  
+  import { successToast } from "./toast";
+  
   
   let dbAddresses: InferQueryOutput<'address:getAll'> = [];
   
