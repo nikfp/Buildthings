@@ -58,7 +58,7 @@ model Contact {
   id String @id @default(uuid())
   firstName String
   lastName String?
-  phone String
+  phone String @unique
   projects Project[]
   customer Customer @relation(fields: [customerId], references: [id])
   customerId String
