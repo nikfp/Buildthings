@@ -6,6 +6,7 @@ import Navlink from "./Navlink.svelte";
   <Navlink href="/" routeTitle="Home"/>
   <Navlink href="/customers" routeTitle="Customers"/>
   <Navlink href="/projects" routeTitle="Projects"/>
+  <Navlink href="/contacts" routeTitle="Contacts" />
 </nav>
 
 <style>

@@ -50,7 +50,7 @@ model Address {
   id String @id @default(uuid())
   street String
   city String
-  projects Project[]
+  projects Project[] 
   customers Customer[]
 }
 

@@ -14,9 +14,9 @@ export const updateCustomerSchema: toZod<Customer> = z.object({
 	phone: z
 		.string()
 		.trim()
-		.min(7, 'Must be a vlid phone number')
+		.min(7, 'Must be a valid phone number')
 		.max(15, 'Must be a valid phone number'),
-	addressId: z.string().uuid()
+	addressId: z.string().uuid('Address ID must be valid')
 });
 export const newCustomerSchema = updateCustomerSchema.omit({ id: true });
 

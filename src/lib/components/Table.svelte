@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Edit from '$components/icons/Edit.svelte'
   type TInput = $$Generic<{[key: string]: T extends infer U ? U : T}[]>
   type TInputType = TInput[0];
 
@@ -25,6 +26,12 @@
    */
   export let key: TKeyName;
 
+  /**
+   * Function to run to initiate edit. If undefined, edit button won't appear. 
+  */
+
+  export let editFunction: undefined | ((data: TInputType) => any) = undefined;
+
 </script>
 
 <table>
@@ -36,6 +43,9 @@
       <th>{label}</th>
       {/if}
       {/each}
+      {#if editFunction}
+        <th>Edit</th>
+      {/if}
     </tr>  
   </thead>
   <tbody>
@@ -53,6 +63,12 @@
       </td>
       {/if}
       {/each}
+      {#if editFunction}
+        <td>
+
+          <Edit on:click={editFunction(row)}/>
+        </td>
+      {/if}
     </tr>
     {/each}
   </tbody>

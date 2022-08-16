@@ -53,15 +53,12 @@ export const addressRouter = router()
 			try {
 				const data = updateAddressSchema.parse(input);
 
-				const dbAddress = await prisma.address.findUnique({
+				const address = await prisma.address.update({
 					where: {
 						id: data.id
-					}
+					},
+					data
 				});
-
-				if (!dbAddress) return Promise.reject(new Error('Address to update not found'));
-
-				const address = await prisma.address.create({ data });
 
 				return Promise.resolve(address);
 			} catch (error) {

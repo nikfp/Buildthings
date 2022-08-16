@@ -8,7 +8,7 @@
   export let values: {key: string, value: string, optionText: string}[];
   export let selected: string | undefined = undefined;
   export let addNew: {buttonText: string, onSelected: () => any | Promise<any>} | undefined = undefined;
-
+    console.log(selected);
  
 </script>
 
@@ -19,10 +19,10 @@
       <Button size="small" type={"button"} on:click={() => addNew?.onSelected()}>{addNew.buttonText}</Button>
       {/if}
       <label class={`select-label ${message ? "select-warning" : ""}`} for={name}>{title ?? name}</label>
-      <select name={name} class={`select ${message ? "select-warning" : ""}`}>
+      <select bind:value={selected} name={name} class={`select ${message ? "select-warning" : ""}`}>
         <option value="">{inputMessage}</option>
-        {#each values as value}
-        <option selected={value.value === selected} value={value.value}>{value.optionText}</option>
+        {#each values as value (value.value)}
+        <option value={value.value}>{value.optionText}</option>
         {/each}
       </select>
       {#if message}
