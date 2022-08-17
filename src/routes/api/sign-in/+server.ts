@@ -1,3 +1,4 @@
+import { json as json$1 } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
 import { createSession, getUserByEmail, validateUserCredentials } from '$lib/services/userService';
 import { serialize } from 'cookie';
@@ -10,26 +11,25 @@ export const POST: RequestHandler = async function ({ request }) {
 
 	// ⚠️ CAUTION: Do not store a plain passwords. Use proper hashing and salting.
 	if (!isValid || !user) {
-		return {
-			status: 401,
-			body: {
-				message: 'Incorrect user or password'
-			}
-		};
+		return json$1({
+			message: 'Incorrect user or password'
+		}, {
+			status: 401
+		});
 	}
 
 	const session = await createSession(user.id);
 
 	if (!session) {
-		return {
-			status: 500,
-			body: { message: 'Server error creating session' }
-		};
+		return json$1({ message: 'Server error creating session' }, {
+			status: 500
+		});
 	}
 
 	const { id, expires } = session;
-	return {
-		status: 200,
+	return json$1({
+		message: 'Successfully signed in'
+	}, {
 		headers: {
 			'Set-Cookie': serialize('session_id', id, {
 				path: '/',
@@ -38,9 +38,6 @@ export const POST: RequestHandler = async function ({ request }) {
 				secure: true,
 				expires
 			})
-		},
-		body: {
-			message: 'Successfully signed in'
 		}
-	};
+	});
 };

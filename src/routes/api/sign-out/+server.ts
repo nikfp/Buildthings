@@ -26,8 +26,5 @@ export const POST: RequestHandler = async function ({ request }) {
 		})
 	);
 
-	return {
-		status: 200,
-		headers
-	};
+	return new Response(undefined, { headers: headers });
 };

@@ -1,20 +1,6 @@
-<script context="module" lang="ts">
-  import type { LoadEvent, Load } from '@sveltejs/kit';
-  
-  export const load: Load = (event: LoadEvent) => {
-    const id = event.params["id"];
-    console.log(`PROJECT ID: ${id}`)
-    return {
-      props: {
-        id
-      }
-    }
-  }
-
-</script>
-
 <script lang="ts">
   import { onMount } from 'svelte';
+  import type {PageData} from './$types'
 
   import {updateCustomerSchema} from '$shared/customer'
   import {newProjectSchema} from "$shared/project"
@@ -30,7 +16,7 @@
   import type { InferQueryOutput } from '$client';
   import trpcClient from '$client';
 
-  export let id: string;
+  export let data: PageData;
 
   export let customer: InferQueryOutput<"customer:getDetails"> | null = null;
 
@@ -48,6 +34,8 @@
       id, name, street, city
     }
   }) ?? null;
+
+  $: id = data.id;
 
 </script>
 {#if !customer}

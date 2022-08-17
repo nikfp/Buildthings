@@ -1,3 +1,4 @@
+import { json as json$1 } from '@sveltejs/kit';
 import { createSession, getUserByEmail, registerUser } from '$lib/services/userService';
 import { serialize } from 'cookie';
 import type { RequestHandler } from '@sveltejs/kit';
@@ -7,12 +8,11 @@ export const POST: RequestHandler = async function ({ request }) {
 	const user = await getUserByEmail(email);
 
 	if (user) {
-		return {
-			status: 409,
-			body: {
-				message: 'User already exists'
-			}
-		};
+		return json$1({
+			message: 'User already exists'
+		}, {
+			status: 409
+		});
 	}
 
 	const newUser = await registerUser({
@@ -21,23 +21,23 @@ export const POST: RequestHandler = async function ({ request }) {
 	});
 
 	if (!newUser) {
-		return {
-			status: 500,
-			body: { message: 'Failed to register user' }
-		};
+		return json$1({ message: 'Failed to register user' }, {
+			status: 500
+		});
 	}
 
 	const session = await createSession(newUser.id);
 
 	if (!session) {
-		return {
-			status: 500,
-			body: { message: 'Failed to created session' }
-		};
+		return json$1({ message: 'Failed to created session' }, {
+			status: 500
+		});
 	}
 
 	const { id, expires } = session;
-	return {
+	return json$1({
+		message: 'Successfully signed up'
+	}, {
 		status: 201,
 		headers: {
 			'Set-Cookie': serialize('session_id', id, {
@@ -47,9 +47,6 @@ export const POST: RequestHandler = async function ({ request }) {
 				secure: true,
 				expires
 			})
-		},
-		body: {
-			message: 'Successfully signed up'
 		}
-	};
+	});
 };

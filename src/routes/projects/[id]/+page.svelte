@@ -1,18 +1,7 @@
-<script context="module" lang="ts">
-  import type { LoadEvent, Load } from '@sveltejs/kit';
-
-  export const load: Load = (event: LoadEvent) => {
-    const id = event.params["id"];
-    return {
-      props: {
-        id
-      }
-    }
-  }
-</script>
-
 <script lang="ts">
+
   import {onMount} from 'svelte';
+  import type {PageData} from './$types'
   
   import {updateProjectSchema} from '$shared/project'
 
@@ -26,10 +15,11 @@
   import trpcClient, { type InferQueryOutput } from '$client'
   import { successToast } from '$components/toast';
 
-  
-  export let id: string;
+  export let data: PageData;
 
   let project: InferQueryOutput<"project:getByIdWithDetails"> | null = null;
+
+  $: id = data.id
 
   onMount(async () => {
     project = await trpcClient.query("project:getByIdWithDetails", {id})
