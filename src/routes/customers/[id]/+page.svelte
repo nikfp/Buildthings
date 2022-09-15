@@ -15,6 +15,7 @@
   import { Button, Spinner } from 'agnostic-svelte';
   import type { InferQueryOutput } from '$client';
   import trpcClient from '$client';
+import { successToast } from '../../../lib/components/toast';
 
   export let data: PageData;
 
@@ -38,55 +39,74 @@
   $: id = data.id;
 
 </script>
+
+<svelte:head>
+  {#if customer }
+    <title>Customer: {customer.name}</title>
+  {:else}
+    <title>Loading...</title>
+  {/if}
+</svelte:head>
+
 {#if !customer}
   <Spinner size="xlarge" />
 {/if}
 {#if customer}
+  <h1>{customer.name}<Edit on:click={() => customerDialog.openDialog()} /></h1>
 
-<h1>{customer.name}<Edit on:click={() => customerDialog.openDialog()} /></h1>
+  <p>{customer.address.street}, {customer.address.city}</p>
 
-<p>{customer.address.street}, {customer.address.city}</p>
+  <Button type="button" on:click={() => projectDialog.openDialog()}>Create Project</Button>
 
-<Button type="button" on:click={() => projectDialog.openDialog()}>Create Project</Button>
+  {#if tableData}
+    <Table data={tableData} key={"id"} fieldConfig={[
+      {fieldName: "name", label: "Project Name", asLink: {
+        hrefBuilder: (row) => `/projects/${row.id}`
+      }}, 
+      {fieldName: "street", label: "Street"}, 
+      {fieldName: "city", label: "City"}]}/>
+  {/if}
 
-{#if tableData}
-  <Table data={tableData} key={"id"} fieldConfig={[
-    {fieldName: "name", label: "Project Name", asLink: {
-      hrefBuilder: (row) => `/projects/${row.id}`
-    }}, 
-    {fieldName: "street", label: "Street"}, 
-    {fieldName: "city", label: "City"}]}/>
-{/if}
+  <Dialog bind:this={customerDialog} title="Edit Customer">
+    <TrpcFormBuilder 
+      opName={"customer:update"} 
+      inputValidator={updateCustomerSchema} 
+      onSuccessfulSubmit={ async (info) => {
+        customer = await trpcClient.query("customer:getDetails", {id});
+        customerDialog.closeDialog();
+        successToast(`"${info.name}" updated`)
+      }}
+      initialValues={{
+      id: customer.id,
+      name: customer.name, 
+      phone: customer.phone,
+      addressId: customer.addressId
+      }}  
+      >
+      <TextInput name="id" title={"id"} hidden={true}/>  
+      <TextInput name="name" title={"Name"} />  
+      <TextInput name="phone" title={"Phone Number"} />  
+      <AddressPicker selectedId={customer.address.id} />
+    </TrpcFormBuilder>
+    
+  </Dialog>
+  <Dialog bind:this={projectDialog} title="New Project">
+    <TrpcFormBuilder 
+      opName={"project:create"} 
+      inputValidator={newProjectSchema}
+      onSuccessfulSubmit={async (info) => {
+        customer = await trpcClient.query("customer:getDetails", {id} )
+        projectDialog.closeDialog();
+        successToast(`Added project: ${info.name}`)
+      }}
+      >
+      <TextInput name="name" title="Project Name"/>
+      <TextInput name="customerId" hidden={true} value={customer.id} title="Customer Id"/>
+      <AddressPicker />
+    </TrpcFormBuilder>
+  </Dialog>
+  
 
-<Dialog bind:this={customerDialog} title="Edit Customer">
-  <TrpcFormBuilder 
-    opName={"customer:update"} 
-    inputValidator={updateCustomerSchema} 
-    onSuccessfulSubmit={ async () => {
-      customer = await trpcClient.query("customer:getDetails", {id});
-      customerDialog.closeDialog();
-    }
-  }>
-    <TextInput name="id" title={"id"} hidden={true} value={customer.id}/>  
-    <TextInput name="name" title={"Name"} value={customer.name}/>  
-    <TextInput name="phone" title={"Phone Number"} value={customer.phone}/>  
-    <AddressPicker selected={customer.address.id} />
-  </TrpcFormBuilder>
-</Dialog>
-<Dialog bind:this={projectDialog} title="New Project">
-  <TrpcFormBuilder 
-    opName={"project:create"} 
-    inputValidator={newProjectSchema}
-    onSuccessfulSubmit={async () => {
-      projectDialog.closeDialog();
-      customer = await trpcClient.query("customer:getDetails", {id} )
-    }}
-    >
-    <TextInput name="name" title="Project Name"/>
-    <TextInput name="customerId" hidden={true} value={customer.id} title="Customer Id"/>
-    <AddressPicker />
-  </TrpcFormBuilder>
-</Dialog>
 {:else}
 <p>Loading....</p>
 {/if}

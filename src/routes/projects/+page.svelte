@@ -22,6 +22,10 @@
     return {
       id, name, street, city, customerName, customerId
     }
+  }).sort((el1, el2) => {
+    if(el1.name.toLowerCase() < el2.name.toLowerCase()) {return -1}
+    if(el1.name.toLowerCase() > el2.name.toLowerCase()) {return 1}
+    return 0;
   }) ?? null;
 
 </script>

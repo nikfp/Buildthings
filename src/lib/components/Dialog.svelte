@@ -11,7 +11,6 @@
 
   export const openDialog = () => {
     if (dialogInstance) {
-      console.log(dialogInstance);
       dialogInstance.show();
     }
   };
@@ -24,5 +23,7 @@
 </script>
 
 <Dialog {title} id="a11y-dialog" dialogRoot="#dialog-root" closeButtonLabel="My close button label" closeButtonPosition="last" titleId="uniqueTitleId" role="dialog" classNames={{ title: 'h4 mbe18 flex justify-center' }} isAnimationFadeIn isAnimationSlideUp on:instance={assignDialogInstance} >
-  <slot />
+  {#if dialogInstance }
+    <slot />
+  {/if}
 </Dialog>

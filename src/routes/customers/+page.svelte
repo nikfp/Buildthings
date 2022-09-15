@@ -18,6 +18,11 @@
 
 </script>
 
+<svelte:head>
+    <title>Customers List</title>
+</svelte:head>
+
+
 <h1>Customers</h1>
 
 <Button type="button" on:click={() => goto("/customers/new")}>Create new customer</Button>

@@ -34,7 +34,8 @@ export const projectRouter = router()
 				},
 				include: {
 					customer: true,
-					address: true
+					address: true,
+					contacts: true
 				}
 			});
 		}

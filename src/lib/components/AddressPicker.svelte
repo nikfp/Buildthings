@@ -14,7 +14,7 @@
   
   let dbAddresses: InferQueryOutput<'address:getAll'> = [];
   
-  export let selected: string | undefined = undefined;
+  export let selectedId: string | undefined = undefined;
 
   onMount(async () => {
     dbAddresses = await trpcClient.query("address:getAll");
@@ -28,6 +28,8 @@
     };
   }) : null;
 
+  $: defaultValue = addresses?.find(el => el.key === selectedId)?.key ?? "";
+
   let addressDialog: Dialog;
 </script>
 
@@ -39,5 +41,11 @@
       successToast("New address created")
       }}/>
   </Dialog>
-  <SelectInput {selected} values={addresses} name="addressId" title="Address" inputMessage="Select an address" addNew={{buttonText: "Add New Address", onSelected: () => addressDialog.openDialog()}}/>
+  <SelectInput selected={defaultValue} values={addresses} name="addressId" title="Address" inputMessage="Select an address" addNew={{buttonText: "Add New Address", onSelected: () => addressDialog.openDialog()}}/>
 {/if}
+
+<!-- <select>
+  <option value="">One</option>
+  <option value="Two" selected>Tow</option>
+  <option value="Three">Three</option>
+</select> -->

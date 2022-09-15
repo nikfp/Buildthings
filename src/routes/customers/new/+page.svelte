@@ -11,6 +11,10 @@
 
 </script>
 
+<svelte:head>
+    <title>Create New Customer</title>
+</svelte:head>
+
 <h1>Create a new customer</h1>
 
 <TrpcFormBuilder 

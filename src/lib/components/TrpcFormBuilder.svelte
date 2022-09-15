@@ -13,6 +13,7 @@
 
   type TMutationInput = InferMutationInput<TMutationName>;
   type TMutationOutput = InferMutationOutput<TMutationName>;
+  
 
   // type TStringInput<T> = {type: "string", name: T, defaultValue?: string} & ({variant: "standard", hidden?: boolean} | {variant: "address"})
 
@@ -23,14 +24,14 @@
   export let opName: TMutationName;
   export let inputValidator: toZod<TMutationInput>;
   export let onSuccessfulSubmit: (input: TMutationOutput) => any = (args) => {};
+  export let initialValues: TMutationInput | undefined = undefined;
 
-  const {form } = createForm<TMutationInput>({
+  const {form, data, setInitialValues } = createForm<TMutationInput>({
   onSubmit: async(values) => {
     const input = inputValidator.parse(values);
     if(!input) throw new Error("Invalid input");
     try {
       const result = await trpcClient.mutation(opName, input );
-      console.log("RESULT");
       return result;
     } catch (error) {
       throw new Error((error as Error).message);
@@ -47,6 +48,8 @@
   },
   extend: [validator({ schema: inputValidator }), reporter]
   });
+
+  if(initialValues) setInitialValues(initialValues);
 
 </script>
 

@@ -45,6 +45,10 @@
 	});
 </script>
 
+<svelte:head>
+  <title>Sign Up</title>
+</svelte:head>
+
 <h1>Sign up</h1>
 <a href="/sign-in">Sign in instead</a>
 

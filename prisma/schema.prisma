@@ -3,9 +3,8 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "../node_modules/@prisma/.prisma/client"
+  output   = "../node_modules/@prisma/.prisma/client"
 }
-
 
 datasource db {
   provider = "postgresql"
@@ -13,53 +12,64 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-  email String @unique
+  id       String    @id @default(uuid())
+  email    String    @unique
   password String
   sessions Session[]
 }
 
 model Session {
-  id String @id @default(uuid())
-  userId String
-  user User @relation(fields: [userId], references: [id])
+  id      String   @id @default(uuid())
+  userId  String
+  user    User     @relation(fields: [userId], references: [id])
   expires DateTime
 }
 
 model Customer {
-  id String @id @default(uuid())
-  name String @unique
-  phone String 
-  projects Project[] 
+  id        String    @id @default(uuid())
+  name      String    @unique
+  phone     String
+  projects  Project[]
   addressId String
-  address Address @relation(fields: [addressId], references: [id])
-  contacts Contact[]
+  address   Address   @relation(fields: [addressId], references: [id])
+  contacts  Contact[]
 }
 
 model Project {
-  id String @id @default(uuid())
-  name String
+  id         String               @id @default(uuid())
+  name       String
   customerId String
-  customer Customer @relation(fields: [customerId], references: [id])
-  addressId String
-  address Address @relation(fields: [addressId], references: [id])
-  contacts Contact[]
+  customer   Customer             @relation(fields: [customerId], references: [id])
+  addressId  String
+  address    Address              @relation(fields: [addressId], references: [id])
+  contacts   ContactsOnProjects[]
 }
 
 model Address {
-  id String @id @default(uuid())
-  street String
-  city String
-  projects Project[] 
+  id        String     @id @default(uuid())
+  street    String
+  city      String
+  projects  Project[]
   customers Customer[]
 }
 
 model Contact {
-  id String @id @default(uuid())
-  firstName String
-  lastName String?
-  phone String @unique
-  projects Project[]
-  customer Customer @relation(fields: [customerId], references: [id])
-  customerId String
+  id            String               @id @default(uuid())
+  firstName     String
+  lastName      String?
+  phone         String               @unique
+  projects      ContactsOnProjects[]
+  customer      Customer             @relation(fields: [customerId], references: [id])
+  customerId    String
 }
+
+model ContactsOnProjects {
+  contact   Contact     @relation(fields: [contactId], references: [id])
+  contactId String
+  projectId String
+  role String
+  Project   Project     @relation(fields: [projectId], references: [id])
+
+  @@id([contactId, projectId])
+}
+

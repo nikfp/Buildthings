@@ -1,12 +1,15 @@
 <script>
 import Navlink from "./Navlink.svelte";
+import {session} from "$app/stores"
 
 </script>
 <nav>
   <Navlink href="/" routeTitle="Home"/>
-  <Navlink href="/customers" routeTitle="Customers"/>
-  <Navlink href="/projects" routeTitle="Projects"/>
-  <Navlink href="/contacts" routeTitle="Contacts" />
+  {#if $session.user }
+    <Navlink href="/customers" routeTitle="Customers"/>
+    <Navlink href="/projects" routeTitle="Projects"/>
+    <Navlink href="/contacts" routeTitle="Contacts" />
+  {/if} 
 </nav>
 
 <style>
